@@ -1,0 +1,18 @@
+.md-nav {
+    background-color: #4054B2;
+    border: #4054B2;
+    border-radius: 5px;
+}
+
+.md-nav--secondary {
+    border: 2px;
+    color: #F6FFFE;
+}
+
+.md-nav__title {
+    padding: 2px;
+}
+
+.md-nav__list {
+    padding: 2px;
+}
