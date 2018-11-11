@@ -1,8 +1,10 @@
-### Pre-Prep  
+# README
+
+## Pre-Prep  
 
 Create a top-level directory to house all apps.  [Todo(s) CICD](https://github.com/corbtastik/todos-ui) requires all Todo(s) projects to exist on the same-level.
 
-### Create and cd into project directory
+## Create and cd into project directory
 
 We want to create a top-level directory and clone all repositories into this location.  Think of this directory as our ``TODOS_HOME``.
 
@@ -12,7 +14,7 @@ We want to create a top-level directory and clone all repositories into this loc
 > export TODOS_HOME=`pwd`
 ```
 
-### PAS Properties  
+## PAS Properties  
 
 Before running deployment scripts edit ``todos-cicd/deploy.conf`` and add your PAS properties.  ``deploy.conf`` has presets for [Pivotal Web Services](https://run.pivotal.io).
 
@@ -26,7 +28,7 @@ cf_org=""
 cf_space=""
 ```
 
-### PAS Servives
+## PAS Servives
 
 * MySQL
 * RabbitMQ

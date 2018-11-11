@@ -1,17 +1,14 @@
-# Welcome to MkDocs
+# Howdy and Welcome
 
-For full documentation visit [mkdocs.org](https://mkdocs.org).
+What is this?  
 
-## Commands
+Simply put its a playground for all things [Spring Boot](http://spring.io/projects/spring-boot) using the Todo as a domain model. The **"Todo"** is well understood which makes it useful for reasoning about frameworks.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
+For example [**TodoMvc**](todomvc.com) is a resource developers can use to evaluate frontend frameworks against a consistent Todo model.
 
-## Project layout
+## Playground
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+* [__Todos API__](/todos-api) - Spring WebMvc API
+* [__Todos WebFlux__](/todos-webflux) - Spring WebFlux Reactive API
+* [__Todos Cloud Gateway__](/todos-cloud-gateway) - Spring Cloud Gateway for Todos
+* [__Todos UI__](/todos-ui) - Vue.js Todos UI based on [todomvc.com/examples/vue](http://todomvc.com/examples/vue/)
