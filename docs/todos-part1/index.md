@@ -97,44 +97,28 @@ First make sure you're targeting a CF installation.  See info [here](/todos-prep
 
 ### Deploy  
 
-Use ``part-1-manifest.yml`` and ``part-1-vars.yml`` from the [Todo(s) CF Manifests](https://github.com/corbtastik/todos-cf-manifests) to push Part 1 apps.
+Use [``part-1-manifest.yml``](https://github.com/corbtastik/todos-cf-manifests/blob/master/part-1-manifest.yml) from the [Todo(s) CF Manifests](https://github.com/corbtastik/todos-cf-manifests) to push Part 1 apps.
 
 Set these properties to suit your needs, if you cloned using default repository names the artifact properties should be fine, just add the route you want for the apps.  You can also override these variables on the cli when we push (see below).
 
-#### part-1-vars.yml
-
-```yml
-app:
-  # route: https://todosapp.cfapps.io
-  route: https://YOUR-APP-ROUTE
-api:
-  # route: https://todos-api.cfapps.io
-  route: https://YOUR-TODOS-API-ROUTE
-  artifact: todos-api/target/todos-api-1.0.0.SNAP.jar
-ui:
-  # route: https://todos-ui.cfapps.io
-  route: https://YOUR-TODOS-UI-ROUTE
-  artifact: todos-ui/
-gateway:
-  # route: https://todos-cloud-gateway.cfapps.io
-  route: https://YOUR-TODOS-CLOUD-GATEWAY-ROUTE
-  artifact: todos-cloud-gateway/target/todos-cloud-gateway-1.0.0.SNAP.jar
-```
-
 ```bash
-# modify part-1-vars.yml with your values and push
-> cf push -f todos-cf-manifests/part-1-manifest.yml --vars-file todos-cf-manifests/part-1-vars.yml
-# OR override on cli
-> cf push -f todos-cf-manifests/part-1-manifest.yml --vars-file todos-cf-manifests/part-1-vars.yml \
+# reminder to set TODOS_HOME see /todos-preprep
+# replace *YOUR* values below
+> cf push -f $TODOS_HOME/todos-cf-manifests/part-1-manifest.yml \
   --var app.route=https://YOUR-APP-ROUTE \
+  --var api.artifact=$TODOS_HOME/todos-api/target/todos-api-1.0.0.SNAP.jar \
   --var api.route=https://YOUR-TODOS-API-ROUTE \
+  --var webflux.artifact=$TODOS_HOME/todos-webflux/target/todos-webflux-1.0.0.SNAP.jar \
+  --var webflux.route=https://YOUR-TODOS-WEBFLUX-ROUTE \
+  --var gateway.artifact=$TODOS_HOME/todos-cloud-gateway/target/todos-cloud-gateway-1.0.0.SNAP.jar \ 
+  --var gateway.route=https://YOUR-TODOS-CLOUD-GATEWAY-ROUTE \
   --var ui.route=https://YOUR-TODOS-UI-ROUTE \
-  --var gateway.route=https://YOUR-TODOS-CLOUD-GATEWAY-ROUTE
+  --var ui.artifact=$TODOS_HOME/todos-ui/
 ```
 
 ### Verify
 
-Open a browser to `https://YOUR-TODOS-API-ROUTE`.
+Open a browser to `https://YOUR-APP-ROUTE`.
 
 Call the Spring Boot Todos API directly.
 
