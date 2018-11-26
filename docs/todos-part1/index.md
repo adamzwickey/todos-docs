@@ -10,18 +10,22 @@ This section focuses on building and running the Part 1 set of Todo(s) apps, whi
 2. [Todo(s) WebMVC API](https://github.com/corbtastik/todos-api) - Spring WebMVC based Todos API
 3. [Todo(s) WebFlux API](https://github.com/corbtastik/todos-webflux) - Spring WebFlux based Todos API
 4. [Todo(s) UI](https://github.com/corbtastik/todos-ui) - todomvc.com Vue.js Todos UI
+5. [Todo(s) CF Manifests](https://github.com/corbtastik/todos-cf-manifests) - CF manifests
 
 ### PrePrep
 
-If you've not completed [PrePrep](PREPREP.md) now would be a good time to do that :smile:
+If you've not completed [PrePrep](/todos-preprep) now would be a good time to do that :smile:
 
 ### Clone Part 1
 
 ```bash
+# read PrePrep to set TODOS_HOME
+> cd $TODOS_HOME
 > git clone https://github.com/corbtastik/todos-cloud-gateway.git
 > git clone https://github.com/corbtastik/todos-api.git
 > git clone https://github.com/corbtastik/todos-webflux.git
 > git clone https://github.com/corbtastik/todos-ui.git
+> git clone https://github.com/corbtastik/todos-cf-manifests.git
 ```
 
 ### Run on localhost
@@ -31,30 +35,22 @@ Build each maven project then run from the command line or your IDE.  Todos UI i
 #### Build each project
 
 ```bash
-# where WORKSPACE is any directory you have write access
-$WORKSPACE/todos-api
-$WORKSPACE/todos-cloud-gateway
-$WORKSPACE/todos-ui
-$WORKSPACE/todos-webflux
-```
-
-```bash
-> cd $WORKSPACE/todos-cloud-gateway
+> cd $TODOS_HOME/todos-cloud-gateway
 > mvnw clean package
 ```
 
 ```bash
-> cd $WORKSPACE/todos-api
+> cd $TODOS_HOME/todos-api
 > mvnw clean package
 ```
 
 ```bash
-> cd $WORKSPACE/todos-webflux
+> cd $TODOS_HOME/todos-webflux
 > mvnw clean package
 ```
 
 ```bash
-> cd $WORKSPACE/todos-ui
+> cd $TODOS_HOME/todos-ui
 > npm install
 ```
 
@@ -63,7 +59,7 @@ $WORKSPACE/todos-webflux
 Start API Gateway
 
 ```bash
-> cd $WORKSPACE/todos-cloud-gateway
+> cd $TODOS_HOME/todos-cloud-gateway
 > java -jar ./target/todos-cloud-gateway-1.0.0.SNAP.jar \
   --eureka.client.enabled=false \
   --spring.cloud.config.enabled=false
@@ -74,7 +70,7 @@ Start API Gateway
 Start API
 
 ```bash
-> cd $WORKSPACE/todos-api
+> cd $TODOS_HOME/todos-api
 > java -jar ./target/todos-api-1.0.0.SNAP.jar \
   --eureka.client.enabled=false \
   --spring.cloud.config.enabled=false
@@ -84,7 +80,7 @@ Start API
 Start UI
 
 ```bash
-> cd $WORKSPACE/todos-ui
+> cd $TODOS_HOME/todos-ui
 > npm run dev
 # Starting up http-server, serving .
 # Available on:
@@ -97,11 +93,15 @@ Open a browser to the [Todos UI](`http://localhost:9999`)
 
 ### Run on CF
 
-First make sure you're targeting a CF installation.  See info [here](PREPREP.md).
+First make sure you're targeting a CF installation.  See info [here](/todos-preprep).
 
 ### Deploy  
 
+Use ``part-1-manifest.yml`` and ``part-1-vars.yml`` from the [Todo(s) CF Manifests](https://github.com/corbtastik/todos-cf-manifests) to push Part 1 apps.
+
 Set these properties to suit your needs, if you cloned using default repository names the artifact properties should be fine, just add the route you want for the apps.  You can also override these variables on the cli when we push (see below).
+
+#### part-1-vars.yml
 
 ```yml
 app:
@@ -123,9 +123,9 @@ gateway:
 
 ```bash
 # modify part-1-vars.yml with your values and push
-> cf push -f part-1-manifest.yml --vars-file part-1-vars.yml
+> cf push -f todos-cf-manifests/part-1-manifest.yml --vars-file todos-cf-manifests/part-1-vars.yml
 # OR override on cli
-> cf push -f part-1-manifest.yml --vars-file part-1-vars.yml \
+> cf push -f todos-cf-manifests/part-1-manifest.yml --vars-file todos-cf-manifests/part-1-vars.yml \
   --var app.route=https://YOUR-APP-ROUTE \
   --var api.route=https://YOUR-TODOS-API-ROUTE \
   --var ui.route=https://YOUR-TODOS-UI-ROUTE \
