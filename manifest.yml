@@ -4,5 +4,5 @@ applications:
   memory: 512MB
   path: site
   routes:
-  - route: todos-docs.cfapps.io
+  - route: corbs-todos-docs.cfapps.io
   buildpack: staticfile_buildpack

@@ -136,8 +136,6 @@ gateway:
 
 Open a browser to `https://YOUR-TODOS-API-ROUTE`.
 
-![Image of Todos UI](todos-part1.png)
-
 Call the Spring Boot Todos API directly.
 
 ```bash
