@@ -21,5 +21,8 @@ You need a Concourse setup, pick your flavor and create a new one :), samples be
 
 ## Using the pipelines
 
-The pipelines assume the existence of **source-code**, in the context of the Todo set of apps such **source-code** is backed back individual git repositories.
+The Pipeline assume the existence of **source-code**, in the context of the Todo set of apps such **source-code** is backed back individual git repositories.  Additionally the **source-code** in the actual repository is assumed to be maven based with build-info enabled.
 
+### Clone this repository
+
+docker-compose up -d
