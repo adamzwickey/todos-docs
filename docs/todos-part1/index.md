@@ -2,7 +2,7 @@
 
 ## Todos Part 1  
 
-Howdy! - what is this?  A sample set of apps using Spring Boot to handle Todo(s) various ways.  The point is not to build an awesome Todo app but to have a canonical model to use as we kick the tires on Spring Boot, Spring at large and complimentary frameworks such as Vue.js.  The idea comes from the wonderful and awesome work of [todomvc.com](https://todomvc.com) which uses the Todo model to baseline and compare frontend stacks.
+Howdy! - what is this?  A sample set of apps using Spring Boot to handle Todo(s) various ways.  The point is not to build an awesome Todo app but to have a canonical model to use as we kick the tires on Spring Boot, Spring at large and complimentary frameworks such as Vue.js.  The idea comes from the wonderful and awesome work of [todomvc.com](http://todomvc.com) which uses the Todo model to baseline and compare frontend stacks.
 
 This section focuses on building and running the Part 1 set of Todo(s) apps, which consists of
 
