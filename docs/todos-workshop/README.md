@@ -241,4 +241,4 @@ push-scs-redis: todos-edge,todos-redis,todos-webui with spring-cloud
 * Manually configure (master branch) todos-edge,todos-api,todos-webui and cf push
 * Confirm the app is functioning, users should now have a UI similar to [this](#todos-webui).
 * Slap a high-five or something as you've manually completed pushing the app
-* Extra mile stuff - use [Todo(s) Shell](#todos-shell) to automate the deployment of the same three apps as one functioning "Todo app" on PCF.  The shell will use your PCF creds and push configured apps to PCF.  Each deploy results in 3 apps running (todos-edge,todos-api,todos-webui) each with a user provided "tag" which will prefix the apps in PCF.
+* Extra mile stuff - use [Todo(s) Shell](#todos-shell) to automate the deployment of the same three apps as one functioning "Todo app" on PCF.  The shell will use your PCF creds and push configured apps to PCF.  Each deploy results in 3 apps running (todos-edge,todos-api,todos-webui) each with a user provided "tag" which will prefix the running app instances.
