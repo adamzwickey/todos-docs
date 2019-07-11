@@ -6,7 +6,7 @@ This is the [one-and-only doc](#todos-workshop) for how to use the Todo apps tog
 
 ## Intended Audience
 
-This content is intended for anyone wanting a sound understanding of Spring Boot on PCF or for anyone wanting to hack around a simple model.
+This content is intended for anyone wanting a sound understanding of Spring Boot on PCF or for anyone wanting to hack around a simple model and get to know salient features of both.  
 
 ## Need to know
 
@@ -35,7 +35,7 @@ class Todo implements Serializable {
 * [Mongo Blog Post](https://www.mongodb.com/blog/post/generating-globally-unique-identifiers-for-use-with-mongodb)
 * [Sonyflake distributed ids](https://github.com/sony/sonyflake)
 
-### Prereqs
+### PreReqs
 
 #### Development
 
@@ -200,3 +200,43 @@ push-scs-redis: todos-edge,todos-redis,todos-webui with spring-cloud
 * Spring Cloud connectivity
 * Stamping out Todo apps...now what?
 * Next steps...Users, tenancy and SSO
+
+## Spring Cloud for PCF
+
+## MySQL for PCF
+
+## Redis for PCF
+
+## RabbitMQ for PCF
+
+## Spring Cloud Streams
+
+## Spring Cloud Tasks
+
+## Shop 0 - Setting up projects, PCF accounts and cf push
+
+## Shop 1 - Introduce Todo sample set (whiteboard or slide with picture)
+
+* Intro to Spring Boot
+* Code or inspect Todo API locally and cf push
+
+## Shop 2 - Introduce Spring Cloud to sample set
+
+* Intro to Spring Cloud
+* Configure git repository for application configs
+* Provision p-config-server, walk through configuration options
+* Code and/or inspect Todos API locally and cf push with Spring Cloud enabled
+* Make config change
+* Refresh Todos API
+* Show updated configuration and walk through how the refresh works
+* Next steps - refresh bus, encrypted values
+
+## Shop 3 - Introduce Spring Cloud Gateway and WebUI
+
+* Refer back to the picture we're building
+* Introduce Spring Cloud Gateway as an application edge and routing tool
+* Inspect Todo(s) Edge code and configuration and walk through how routes are handled
+* Inspect both master and cloud branches for differences, note cloud branch uses Spring Cloud semantics for connectivity so we can stop maintaining URIs and such.  
+* Introduce WebUI and simply show it's a Spring Boot app vendoring a frontend Javascript/HTML/CSS app.  
+* Manually configure (master branch) todos-edge,todos-api,todos-webui and cf push
+* Confirm the app is functioning, users should now have a UI similar to [this](#todos-webui).
