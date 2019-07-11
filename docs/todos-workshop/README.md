@@ -231,7 +231,9 @@ push-scs-redis: todos-edge,todos-redis,todos-webui with spring-cloud
 * Show updated configuration and walk through how the refresh works
 * Next steps - refresh bus, encrypted values
 
-## Shop 3 - Introduce Spring Cloud Gateway and WebUI
+## Shop 3
+
+### Introduce Spring Cloud Gateway and WebUI
 
 * Refer back to the picture we're building
 * Introduce Spring Cloud Gateway as an application edge and routing tool
@@ -242,3 +244,62 @@ push-scs-redis: todos-edge,todos-redis,todos-webui with spring-cloud
 * Confirm the app is functioning, users should now have a UI similar to [this](#todos-webui).
 * Slap a high-five or something as you've manually completed pushing the app
 * Extra mile stuff - use [Todo(s) Shell](#todos-shell) to automate the deployment of the same three apps as one functioning "Todo app" on PCF.  The shell will use your PCF creds and push configured apps to PCF.  Each deploy results in 3 apps running (todos-edge,todos-api,todos-webui) each with a user provided "tag" which will prefix the running app instances.
+
+## Shop 4
+
+### Internal Routes on PCF
+
+We can restrict access to the Backend API and UI by removing public routes for those apps and then mapping them to an internal domain (``apps.internal``).  Once the apps have an internal route we can add a network policy that allows the Edge to call them.
+
+Push the Edge, API and UI with the ``manifest-internal.yml`` from each project and the result will be a deployment where the Edge is the access point for the Todo app and the API and UI apps aren't over-exposed on the network.
+
+1. Push todos-api and todos-webui with the ``manifest-internal.yml`` in each project
+1. Push the todos-edge and configure the API and UI internal routes in ``manifest-internal.yml``
+1. Configure `todos.api.endpoint` and `todos.ui.endpoint` in `manifest-internal.yml`
+    ```yaml
+    ---
+    applications:
+    - name: todos-edge
+      memory: 1G
+      routes:
+      - route: todos-edge.apps.retro.io
+      - route: todos.apps.retro.io  
+      path: target/todos-edge-1.0.0.SNAP.jar
+      env: # internal routes
+        TODOS_UI_ENDPOINT: http://todos-ui.apps.internal:8080
+        TODOS_API_ENDPOINT: http://todos-api.apps.internal:8080
+    ```
+1. Add network policy to allow access to API and UI from Edge
+    ```bash
+    $ cf add-network-policy todos-edge --destination-app todos-api
+    $ cf add-network-policy todos-edge --destination-app todos-webui
+    $ cf network-policies
+    Listing network policies in org retro / space arcade as corbs...
+    source       destination   protocol   ports
+    todos-edge   todos-api     tcp        8080
+    todos-edge   todos-webui   tcp        8080    
+    ```
+1. Push todo-edge with internal routes ``cf push -f manifest-internal.yml`` (awwwweee yeah)
+
+## Shop 5 - Introduce backing services for MySQL and Redis
+
+* Refer back to the picture we're building...it would be nice to swap out todos-api which is just keeping an internal map of the data with something more apropos.  For instance with a database like MySQL or NoSQL store like Redis.
+* Introduce
+    * Spring Data at large
+    * Spring Data Rest
+    * Spring Data JPA
+    * Spring Data Repositories, Crud and Paging
+    * Spring Data Redis non-reactive and reactive
+    * MySQL for PCF
+    * Redis for PCF
+* Inspect todos-mysql and todos-redis
+* Compile, configure and cf push both
+* Configure todos-edge with todos-mysql backend in git repo
+* Refresh todos-edge
+* Access your Todo(s) app and take note of data persistence in backing MySQL db
+* Repeat the process again, configuring your todos-edge to use todos-redis instead
+* Extra mile stuff - Using todos-shell deploy a ready made Todo(s) App with a MySQL backed API by running `shell:>push-my-sql --tag myapp`
+* Discuss pros and cons of both types of stores
+* Start to introduce caching use-cases, patterns and position Pivotal Cloud Cache
+
+        What have you done up to this point?  ...At this point in the shop each attendee should have coded, inspected, modified Spring Boot source code to at least 1 of 5 repositories, or perhaps just implemented some of these samples by hand as some have actually done.  At any rate attendees have seen and/or originated code for an Edge, API and/or UI app with and without Spring Cloud.  Been introduced to Java life on PCF (i.e. Java Buildpack and its features and perhaps with how to control), developers always want to know about JAVA_OPS, vm args and debugging java apps), how containers are built and the benefits of platform baked containers.  Folks should also have been introduced to backing services on PCF and how such services are consumed from Spring Boot apps.  This brings about an opportunity to discuss Spring Auto Reconfiguration in the Java Buildpack.  Developers at this point will typically ask questions around "Connection Pooling and Management", where does the DataSource come from?  
