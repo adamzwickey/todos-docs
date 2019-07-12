@@ -291,7 +291,9 @@ In this Shop we're going to build a simple 3 service App that consist of a backi
 At the end of this Shop you'll have 3 apps running in PCF that have been manually configured to work together.
 
 * Intro to Spring Boot and [Sample Set](#shop-sample-set)
-* Code or inspect [Todo Edge](#todos-edge), [Todos API](#todos-api) and [Todos WebUI](#todos-webui) locally
+* Introduce Spring Cloud Gateway as an application edge and routing tool
+* Code or inspect [Todo Edge](#todos-edge), [Todos API](#todos-api) and [Todos WebUI](#todos-webui) locally, inspect both master and cloud branches for differences, note cloud branch uses Spring Cloud semantics for connectivity so we can stop maintaining URIs and such.  
+* Introduce WebUI and simply show it's a Spring Boot app vendoring a frontend Javascript/HTML/CSS app.
 * Run a maven build on todos-edge, todos-api, todos-webui
 * Manually configure manifests for your todos-edge, todos-api and todos-webui apps
 * In particular manually configure the route endpoints on todos-edge
@@ -299,8 +301,9 @@ At the end of this Shop you'll have 3 apps running in PCF that have been manuall
     * `TODOS_UI_ENDPOINT: <your-todos-webui-url>`
 * cf push each app
 * You'll have a route to your Todo Edge app...for example `https://corbs-todos-edge.apps.retro.io`.  Open using Chrome to access UI.
+* Slap a high-five or something as you've manually completed pushing the app
 * Extra mile - Create a custom route in cf and map to your Todos Edge
-* Extra mile - Use Todo Shell to automate pushing the apps
+* Extra mile stuff - use [Todo(s) Shell](#todos-shell) to automate the deployment of the same three apps as one functioning "Todo app" on PCF.  The shell will use your PCF creds and push configured apps to PCF.  Each deploy results in 3 apps running (todos-edge,todos-api,todos-webui) each with a user provided "tag" which will prefix the running app instances.
     * `shell:>push-app --tag corbs`
 
 Pause...take a quick review and field questions
@@ -354,6 +357,7 @@ Push the Edge, API and UI with the ``manifest-internal.yml`` from each project a
 * Intro to Spring Cloud (setup for this sample set)
 * Configure git repository for application configs
 * Provision p-config-server, walk through configuration options
+* Provision p-service-registry, walk through configuration options
 * Switch todos-edge, todos-api, todos-webui to cloud branch
 * Code and/or inspection time
     * Spring Cloud Services dependencies
@@ -362,7 +366,7 @@ Push the Edge, API and UI with the ``manifest-internal.yml`` from each project a
 * Build todos-edge, todos-api, todos-webui
 * Configure manifests to bind to Config Server and Service Registry instances
 * cf push todos-edge, todos-api, todos-webui
-* Make config change to todos-webui placeholder property to customize the UI placeholder.
+* Make config change to todos-webui `placeholder` property to customize the UI placeholder.
 * Refresh Todos WebUI
 * Show updated placeholder on WebUI and walk through how the refresh works
 * Next steps - refresh bus, encrypted values
@@ -372,22 +376,6 @@ Push the Edge, API and UI with the ``manifest-internal.yml`` from each project a
 ---
 
 ## Shop 4
-
-### Introduce Edge (Spring Cloud Gateway) and WebUI (Spring Boot + Vue.js) apps
-
-* Refer back to the picture we're building
-* Introduce Spring Cloud Gateway as an application edge and routing tool
-* Inspect Todo(s) Edge code and configuration and walk through how routes are handled
-* Inspect both master and cloud branches for differences, note cloud branch uses Spring Cloud semantics for connectivity so we can stop maintaining URIs and such.  
-* Introduce WebUI and simply show it's a Spring Boot app vendoring a frontend Javascript/HTML/CSS app.  
-* Manually configure (master branch) todos-edge,todos-api,todos-webui and cf push
-* Confirm the app is functioning, users should now have a UI similar to [this](#todos-webui).
-* Slap a high-five or something as you've manually completed pushing the app
-* Extra mile stuff - use [Todo(s) Shell](#todos-shell) to automate the deployment of the same three apps as one functioning "Todo app" on PCF.  The shell will use your PCF creds and push configured apps to PCF.  Each deploy results in 3 apps running (todos-edge,todos-api,todos-webui) each with a user provided "tag" which will prefix the running app instances.
-
----
-
-## Shop 5
 
 ### Introduce backing services for MySQL and Redis
 
@@ -414,7 +402,7 @@ Push the Edge, API and UI with the ``manifest-internal.yml`` from each project a
 
 ---
 
-## Shop 6 
+## Shop 5 
 
 ### Lookaside Caching Backend
 
@@ -431,7 +419,7 @@ This Shop puts together a backend for our Todo(s) app that implements Lookaside 
 
 ---
 
-## Shop 7
+## Shop 6
 
 ### Spring Cloud Streams integration
 
