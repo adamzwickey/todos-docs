@@ -204,6 +204,11 @@ push-scs-redis: todos-edge,todos-redis,todos-webui with spring-cloud
 
 ---
 
+## Shop Sample Set
+
+![Todos Samples](img/shop-samples.png "Todos Samples")
+
+
 ## Shop 0
 
 ### Setting up projects, PCF accounts and cf push ice-breaker
@@ -242,7 +247,7 @@ This Shop is all about setting up the projects and doing a CF push ice-breaker. 
     1. `cf buildpacks`
     1. `cf marketplace`
 
-1. Compile and Push ice-breaker [App](#todos-api)
+1. Compile and Push ice-breaker [App](#todos-api) - Now is a good time to talk about what PCF did to containerize and bring the app online.
 
 Edit the manifest.yml in `todos-api` to your liking.  Use a unique name for your application name, recommend to prefix with your name.
 
@@ -281,7 +286,7 @@ PCF is capable of containerizing many different types of applications, take a lo
 
 ### Introduce Todo sample set (whiteboard or slide with picture)
 
-* Intro to Spring Boot
+* Intro to Spring Boot and [Sample Set](#shop-sample-set)
 * Code or inspect Todo API locally and cf push
 
 ---
