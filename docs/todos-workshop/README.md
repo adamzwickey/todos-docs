@@ -54,12 +54,42 @@ class Todo implements Serializable {
 Each project can be cloned, built and pushed to PCF individually.  All that's required to work with the projects locally are listed below.
 
 1. Java 8 JDK ([sdkman](https://sdkman.io/sdks#java) is a nice dev option)
-1. [Git client](https://git-scm.com/downloads)
-1. Maven 3 (again [sdkman](https://sdkman.io/sdks#maven))
-1. Make (for quick clone)
-1. [Cloud Foundry CLI](https://github.com/cloudfoundry/cli)
-1. [Curl](https://curl.haxx.se/) or [Httpie](https://httpie.org/)
-1. An editor and internet connection
+    * Be able to run java and java from cli  
+
+```bash
+> java -version
+openjdk version "1.8.0_212"
+OpenJDK Runtime Environment (AdoptOpenJDK)(build 1.8.0_212-b03)
+OpenJDK 64-Bit Server VM (AdoptOpenJDK)(build 25.212-b03, mixed mode)
+
+> javac -version
+javac 1.8.0_212
+```
+
+1. [Git client](https://git-scm.com/downloads) to clone projects
+    * If you cannot clone from github then download zips from this [S3 bucket](https://CHANGEME).
+1. (optional) Maven 3 (again [sdkman](https://sdkman.io/sdks#maven)) - all projects use the [Maven Wrapper](https://github.com/takari/maven-wrapper) so maven installation is optional.
+1. (optional) [Make](https://www.gnu.org/software/make/) - for quick clone and other ready made commands
+1. [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) - install for your platform.  If you have access to Pivotal Apps Manager you can download the latest cf-cli from the Tools menu.  Check cf-cli version.
+
+```bash
+> cf -v      
+cf version 6.46.0+29d6257f1.2019-07-09
+```
+
+1. [Curl](https://curl.haxx.se/) or [Httpie](https://httpie.org/) - for being able to manually send various api/app requests.  [Post Man](https://www.getpostman.com/) or any http client you're comfortable with is probably fine.
+
+```bash
+# for example use Httpie to update a todo
+http PATCH myscs-todos-app.apps.retro.io/f76bebbe \
+    title="WATCH all-star game #mlb"
+# or list application routes in spring-cloud-gateway component
+http foo-todos-edge.apps.retro.io/actuator/gateway/routes
+# or curl to encrypt text via spring-cloud config-server
+curl -H "Authorization: $(cf oauth-token)" https://config-721a0c02-2ec8-466b-bead-fd127b72d464.apps.retro.io/encrypt -d 'Howdy' -k
+```
+1. An editor - All projects were created from the [Spring Initialzr](https://start.spring.io) as Maven for build and Java or Kotlin as the language.  Any editor or ide will do.
+1. Connectivity to Maven and Spring Repositories - you may need to configure a [Maven Proxy](https://CHANGEME)
 
 #### Pivotal Cloud Foundry
 
@@ -69,33 +99,70 @@ Each project can be cloned, built and pushed to PCF individually.  All that's re
 1. [Redis for PCF 2.0 and up](https://docs.pivotal.io/redis/2-0/index.html)
 1. [Spring Cloud Services for PCF 2.0.x](https://docs.pivotal.io/spring-cloud-services/2-0/common/index.html)
 1. An account on PCF with Space Developer access
-1. This sample set consumes at a minimum 1 MySQL SI, 1 Redis SI, 1 RabbitMQ SI, 1 Config Server SI and 1 Service Registry SI for [5 total](https://www.youtube.com/watch?v=k6OWSf8_5J4).
+1. This sample set consumes at a minimum [5](https://www.youtube.com/watch?v=k6OWSf8_5J4) SIs
+    * 1 MySQL SI - todos-mysql, todos-sink
+    * 1 Redis SI - todos-redis, todos-app
+    * 1 RabbitMQ SI - todos-app, todos-processor, todos-sink
+    * 1 Config Server SI - todos-*
+    * 1 Service Registry SI - todos-*
 
 ### Projects Setup
 
-Project setup is pretty straightforward as each project is [standard spring boot](https://start.spring.io) with maven. Follow the steps below for a quick way to clone and build.  However you can easily clone each project listed [here](#projects) and manually run the maven builds (`mvnw clean package`).  The recommendation is that projects are siblings on the file-system.
+Project setup is pretty straightforward as each project is [standard spring boot](https://start.spring.io) with maven. Thats a talking point however because each sample is its own "project" and git repository.  So to get all the samples we need to clone multiple repositories...9 to be exact but there small so its not too bad.
 
+The only **must have** is all projects should exist on the file-system as siblings...at least for general sanity.
+
+After you clone or unzip the projects directory should look like so...
+
+```bash
+corbs@corbspro:~/Desktop/todos-samples
+> ls -al
+./todos-api
+./todos-app
+./todos-edge
+./todos-mysql
+./todos-processor
+./todos-redis
+./todos-shell
+./todos-sink
+./todos-webui
 ```
-${someDir}/todos-api
-${someDir}/todos-edge
-${someDir}/todos-webui
-${someDir}/todos-mysql
-${someDir}/todos-redis
-${someDir}/todos-app
-${someDir}/todos-shell
+
+#### Clone Manually
+
+```bash
+mkdir ~/Desktop/todos-samples
+cd ~/Desktop/todos-samples
+git clone https://github.com/corbtastik/todos-api
+git clone https://github.com/corbtastik/todos-app
+git clone https://github.com/corbtastik/todos-edge
+git clone https://github.com/corbtastik/todos-mysql
+git clone https://github.com/corbtastik/todos-processor
+git clone https://github.com/corbtastik/todos-redis
+git clone https://github.com/corbtastik/todos-shell
+git clone https://github.com/corbtastik/todos-sink
+git clone https://github.com/corbtastik/todos-webui
+```
+
+#### Clone using Todo(s) Shell
+
+Follow the steps below for a quick way to clone and build.  However you can easily clone each project as stated above.
+
+```bash
+mkdir ~/Desktop/todos-samples
+cd ~/Desktop/todos-samples
+git clone https://github.com/corbtastik/todos-shell
+cd todos-shell
+make setup
 ```
 
 1. Clone the `todos-shell` project
 1. cd into `todos-shell`
-1. Run `make clone` to clone all the projects
-1. Afterwards you should have these projects in `todos-shell/apps`
-    * todos-api
-    * todos-edge
-    * todos-webui
-    * todos-mysql
-    * todos-redis
-    * todos-app
-    * todos-shell
+1. Run `make set` to clone all the projects
+1. Afterwards you should the projects in `../todos-shell`
+
+#### Building
+
 1. Run `make build` to kickoff a maven build for each project.  By default this requires internet access to Maven Central and Spring Repositories.
 1. The build places artifacts in each project's `${project}/target` directory.  By default the artifact version is set to `1.0.0.SNAP` and all apps expose this info over `/actuator/info`.
 
@@ -225,7 +292,7 @@ push-scs-redis: todos-edge,todos-redis,todos-webui with spring-cloud
 
 ### Setting up projects, PCF accounts and cf push ice-breaker
 
-This Shop is all about setting up the projects and doing a CF push ice-breaker.  The best way to get started it to clone [Todo(s) Shell](https://github.com/corbtastik/todos-edge) (or download zip) and run the following make command to clone all the projects.
+This Shop is all about setting up the projects and doing a CF push ice-breaker.  The best way to get started it to clone [Todo(s) Shell](https://github.com/corbtastik/todos-shell) (or download zip) and run the following make command to clone all the projects.
 
 1. Complete [Projects Setup](#projects-setup) and initial build
 1. You should have these projects cloned to the same directory on your machine
