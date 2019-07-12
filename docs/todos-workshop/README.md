@@ -286,8 +286,22 @@ PCF is capable of containerizing many different types of applications, take a lo
 
 ### Introduce Todo sample set (whiteboard or slide with picture)
 
+In this Shop we're going to build a simple 3 service App that consist of a backing API implemented in Spring Boot, a WebUI which is a Spring Boot vendored Vue.js app and an Edge implemented with Spring Cloud Gateway that helps with application level routing.  This Shop is plain-ole Spring Boot without Spring Cloud integration (which is later) and relies simply on core PCF features.
+
+At the end of this Shop you'll have 3 apps running in PCF that have been manually configured to work together.
+
 * Intro to Spring Boot and [Sample Set](#shop-sample-set)
-* Code or inspect Todo API locally and cf push
+* Code or inspect [Todo Edge](#todos-edge), [Todos API](#todos-api) and [Todos WebUI](#todos-webui) locally
+* Run a maven build on todos-edge, todos-api, todos-webui
+* Manually configure manifests for your todos-edge, todos-api and todos-webui apps
+* In particular manually configure the route endpoints on todos-edge
+    * `TODOS_API_ENDPOINT: <your-todos-api-url>`
+    * `TODOS_UI_ENDPOINT: <your-todos-webui-url>`
+* cf push each app
+* You'll have a route to your Todo Edge app...for example `https://corbs-todos-edge.apps.retro.io`.  Open using Chrome to access UI.
+* Extra mile - Create a custom route in cf and map to your Todos Edge
+* Extra mile - Use Todo Shell to automate pushing the apps
+    * `shell:>push-app --tag corbs`
 
 ---
 
