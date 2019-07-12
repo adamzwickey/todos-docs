@@ -2,7 +2,7 @@
 
 Howdy and welcome!  
 
-This is the [one-and-only doc](#todos-workshop) for how to use the Todo apps together as a sample set.  Each project listed below has it's own README that details app specifics, this doc is an exhaustive list of information on how to use them together on PCF.
+This is the [one-and-only doc](#todos-workshop) for how to use the Todo apps together as a sample set.  Each project listed below has it's own README that details app specifics, this doc is an exhaustive list of information on how to use them together on PCF in a workshop format.
 
 * [Audience](#Audience)
 * [Need to know](#need-to-know)
