@@ -4,7 +4,19 @@ Howdy and welcome!
 
 This is the [one-and-only doc](#todos-workshop) for how to use the Todo apps together as a sample set.  Each project listed below has it's own README that details app specifics, this doc is an exhaustive list of information on how to use them together on PCF.
 
-## Intended Audience
+* [Audience](#Audience)
+* [Need to know](#need-to-know)
+    * [PreReqs](#prereqs)
+    * [Domain Model](#domain-model)
+* [Shop 0](#shop-0) - Setting up projects, PCF accounts and cf push ice-breaker
+* Shop 1 - Introduce Todo sample set (whiteboard or slide with picture)
+* Shop 2 - Internal Routes on PCF
+* Shop 3 - Spring Cloud for Todo sample set
+* Shop 4 - Backing Services with MySQL and Redis for PCF
+* Shop 5 - Spring Cloud Connected Lookaside Caching backend
+* Shop 6 - Spring Cloud Streams integration with RabbitMQ for PCF
+
+## Audience
 
 This content is intended for anyone wanting a sound understanding of Spring Boot on PCF or for anyone wanting to hack around a simple model and get to know salient features of both.  
 
@@ -352,7 +364,7 @@ Push the Edge, API and UI with the ``manifest-internal.yml`` from each project a
 
 ## Shop 3
 
-### Introduce Spring Cloud for Todo sample set
+### Spring Cloud for Todo sample set
 
 * Intro to Spring Cloud (setup for this sample set)
 * Configure git repository for application configs
@@ -377,7 +389,7 @@ Push the Edge, API and UI with the ``manifest-internal.yml`` from each project a
 
 ## Shop 4
 
-### Introduce backing services for MySQL and Redis
+### Introduce backing services MySQL and Redis for PCF
 
 * Refer back to the picture we're building...it would be nice to swap out todos-api which is just keeping an internal map of the data with something more apropos.  For instance with a database like MySQL or NoSQL store like Redis.
 * Introduce
@@ -404,7 +416,7 @@ Push the Edge, API and UI with the ``manifest-internal.yml`` from each project a
 
 ## Shop 5 
 
-### Lookaside Caching Backend
+### Spring Cloud Connected Lookaside Caching backend
 
 This Shop puts together a backend for our Todo(s) app that implements Lookaside caching at the app level and leverages previously deployed todos-mysql and todos-redis instances as the System of Record and Cache respectively.  This Shop is focused on using cloud-native connectivity baked into Spring Cloud apps, for example the Lookaside Caching app (todos-app) integrates with the Sor and Cache using DiscoveryService and hence is able to leverage internal name resolution.  IPs and URIs come and go, Spring Cloud can go a long way to insulate application code from physical network properties.
 
@@ -421,7 +433,7 @@ This Shop puts together a backend for our Todo(s) app that implements Lookaside 
 
 ## Shop 6
 
-### Spring Cloud Streams integration
+### Spring Cloud Streams integration with RabbitMQ for PCF
 
 In this Shop we code, inspect and deploy 3 Spring Cloud Stream apps and integrate using RabbitMQ for PCF to handle messaging.  
 
