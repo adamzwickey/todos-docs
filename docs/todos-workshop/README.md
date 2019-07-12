@@ -275,12 +275,16 @@ PCF is capable of containerizing many different types of applications, take a lo
 1. [CF Sample Apps](https://github.com/cloudfoundry-samples)
 1. [SSO Samples](https://github.com/pivotal-cf/identity-sample-apps)
 
+---
+
 ## Shop 1
 
 ### Introduce Todo sample set (whiteboard or slide with picture)
 
 * Intro to Spring Boot
 * Code or inspect Todo API locally and cf push
+
+---
 
 ## Shop 2
 
@@ -295,6 +299,8 @@ PCF is capable of containerizing many different types of applications, take a lo
 * Show updated configuration and walk through how the refresh works
 * Next steps - refresh bus, encrypted values
 
+---
+
 ## Shop 3
 
 ### Introduce Edge (Spring Cloud Gateway) and WebUI (Spring Boot + Vue.js) apps
@@ -308,6 +314,8 @@ PCF is capable of containerizing many different types of applications, take a lo
 * Confirm the app is functioning, users should now have a UI similar to [this](#todos-webui).
 * Slap a high-five or something as you've manually completed pushing the app
 * Extra mile stuff - use [Todo(s) Shell](#todos-shell) to automate the deployment of the same three apps as one functioning "Todo app" on PCF.  The shell will use your PCF creds and push configured apps to PCF.  Each deploy results in 3 apps running (todos-edge,todos-api,todos-webui) each with a user provided "tag" which will prefix the running app instances.
+
+---
 
 ## Shop 4
 
@@ -345,6 +353,8 @@ Push the Edge, API and UI with the ``manifest-internal.yml`` from each project a
     ```
 1. Push todo-edge with internal routes ``cf push -f manifest-internal.yml`` (awwwweee yeah)
 
+---
+
 ## Shop 5
 
 ### Introduce backing services for MySQL and Redis
@@ -370,6 +380,8 @@ Push the Edge, API and UI with the ``manifest-internal.yml`` from each project a
 
         What have you done up to this point?  ...At this point in the shop each attendee should have coded, inspected, modified Spring Boot source code to at least 1 of 5 repositories, or perhaps just implemented some of these samples by hand as some have actually done.  At any rate attendees have seen and/or originated code for an Edge, API and/or UI app with and without Spring Cloud.  Been introduced to Java life on PCF (i.e. Java Buildpack and its features and perhaps with how to control), developers always want to know about JAVA_OPS, vm args and debugging java apps), how containers are built and the benefits of platform baked containers.  Folks should also have been introduced to backing services on PCF and how such services are consumed from Spring Boot apps.  This brings about an opportunity to discuss Spring Auto Reconfiguration in the Java Buildpack.  Developers at this point will typically ask questions around "Connection Pooling and Management", where does the DataSource come from?  
 
+---
+
 ## Shop 6 
 
 ### Lookaside Caching Backend
@@ -384,6 +396,8 @@ This Shop puts together a backend for our Todo(s) app that implements Lookaside 
 1. Configure Edge to use Lookaside Caching Backend
 1. Refresh Edge
 1. Access the UI
+
+---
 
 ## Shop 7
 
