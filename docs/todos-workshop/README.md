@@ -20,33 +20,6 @@ This is the [one-and-only doc](#todos-workshop) for how to use the Todo apps tog
 
 This content is intended for anyone wanting a sound understanding of Spring Boot on PCF or for anyone wanting to hack around a simple model and get to know salient features of both.  
 
-## Need to know
-
-### Domain Model
-
-All the samples in this workshop center around the `Todo` model and hence most are named `todos-blah-blah-blah`.  Each project scratches a particular Spring Boot + PCF itch but all share this simple `Todo` type.
-
-```java
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-class Todo implements Serializable {
-    private String id;
-    private String title;
-    private Boolean complete = Boolean.FALSE;
-}
-```
-
-*However* it should be stated that each project maintains it's own implementation of this tiny model.  This gist is a Todo is a String id, String title and Boolean complete flag and that's it.  String as id perhaps is a good talking point around how id(s) should be typed and managed for certain use-cases.  Also considerations around what really needs an id anyway, who should own the id and such.  This sample set uses String (UUID) as an id and app code "owns" dealing out new ones...database id generation isn't used.
-
-**Apropos**
-
-* [`java.util.UUID`](https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html)
-* [Mongo ObjectId](https://docs.mongodb.com/manual/reference/method/ObjectId/)
-* [Mongo Blog Post](https://www.mongodb.com/blog/post/generating-globally-unique-identifiers-for-use-with-mongodb)
-* [Sonyflake distributed ids](https://github.com/sony/sonyflake)
-
 ### PreReqs
 
 #### Development
@@ -171,6 +144,31 @@ make setup
 The samples listed below are used throughout the workshop, each repository goes into more depth on the app but here's a quick summary of each.  
 
 **Note** - Each project contains a master and cloud branch.  The master branch contains plain-ole Spring Boot apps while the cloud branch adds [Spring Cloud](https://spring.io/projects/spring-cloud) features to each.
+
+#### Domain Model
+
+All the samples in this workshop center around the `Todo` model and hence most are named `todos-blah-blah-blah`.  Each project scratches a particular Spring Boot + PCF itch but all share this simple `Todo` type.
+
+```java
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+class Todo implements Serializable {
+    private String id;
+    private String title;
+    private Boolean complete = Boolean.FALSE;
+}
+```
+
+*However* it should be stated that each project maintains it's own implementation of this tiny model.  This gist is a Todo is a String id, String title and Boolean complete flag and that's it.  String as id perhaps is a good talking point around how id(s) should be typed and managed for certain use-cases.  Also considerations around what really needs an id anyway, who should own the id and such.  This sample set uses String (UUID) as an id and app code "owns" dealing out new ones...database id generation isn't used.
+
+**Apropos**
+
+* [`java.util.UUID`](https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html)
+* [Mongo ObjectId](https://docs.mongodb.com/manual/reference/method/ObjectId/)
+* [Mongo Blog Post](https://www.mongodb.com/blog/post/generating-globally-unique-identifiers-for-use-with-mongodb)
+* [Sonyflake distributed ids](https://github.com/sony/sonyflake)  
 
 #### todos-api
 
