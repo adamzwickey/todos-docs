@@ -20,14 +20,14 @@ This is the [one-and-only doc](#todos-workshop) for how to use the Todo apps tog
 
 This content is intended for anyone wanting a sound understanding of Spring Boot on PCF or for anyone wanting to hack around a simple model and get to know salient features of both.  
 
-### PreReqs
+## PreReqs
 
-#### Development
+### Development
 
 Each project can be cloned, built and pushed to PCF individually.  All that's required to work with the projects locally are listed below.
 
 1. Java 8 JDK ([sdkman](https://sdkman.io/sdks#java) is a nice dev option)
-    * Be able to run java and java from cli  
+    * Be able to run `java` and `javac` from cli  
 
 ```bash
 > java -version
@@ -64,7 +64,7 @@ curl -H "Authorization: $(cf oauth-token)" https://config-721a0c02-2ec8-466b-bea
 1. An editor - All projects were created from the [Spring Initialzr](https://start.spring.io) as Maven for build and Java or Kotlin as the language.  Any editor or ide will do.
 1. Connectivity to Maven and Spring Repositories - you may need to configure a [Maven Proxy](https://CHANGEME)
 
-#### Pivotal Cloud Foundry
+### Pivotal Cloud Foundry
 
 1. [Pivotal Application Service 2.5 and up](https://docs.pivotal.io/pivotalcf/2-5)
 1. [MySQL for PCF 2.5 and up](https://docs.pivotal.io/p-mysql/2-5/index.html)
@@ -79,7 +79,7 @@ curl -H "Authorization: $(cf oauth-token)" https://config-721a0c02-2ec8-466b-bea
     * 1 Config Server SI - todos-*
     * 1 Service Registry SI - todos-*
 
-### Projects Setup
+## Projects Setup
 
 Project setup is pretty straightforward as each project is [standard spring boot](https://start.spring.io) with maven. Thats a talking point however because each sample is its own "project" and git repository.  So to get all the samples we need to clone multiple repositories...9 to be exact but there small so its not too bad.
 
@@ -101,7 +101,7 @@ corbs@corbspro:~/Desktop/todos-samples
 ./todos-webui
 ```
 
-#### Clone Manually
+### Clone Manually
 
 ```bash
 mkdir ~/Desktop/todos-samples
@@ -117,7 +117,7 @@ git clone https://github.com/corbtastik/todos-sink
 git clone https://github.com/corbtastik/todos-webui
 ```
 
-#### Clone using Todo(s) Shell
+### Clone using Todo(s) Shell
 
 Follow the steps below for a quick way to clone and build.  However you can easily clone each project as stated above.
 
@@ -134,18 +134,18 @@ make setup
 1. Run `make set` to clone all the projects
 1. Afterwards you should the projects in `../todos-shell`
 
-#### Building
+### Building
 
 1. Run `make build` to kickoff a maven build for each project.  By default this requires internet access to Maven Central and Spring Repositories.
 1. The build places artifacts in each project's `${project}/target` directory.  By default the artifact version is set to `1.0.0.SNAP` and all apps expose this info over `/actuator/info`.
 
-### Projects
+## Projects
 
 The samples listed below are used throughout the workshop, each repository goes into more depth on the app but here's a quick summary of each.  
 
 **Note** - Each project contains a master and cloud branch.  The master branch contains plain-ole Spring Boot apps while the cloud branch adds [Spring Cloud](https://spring.io/projects/spring-cloud) features to each.
 
-#### Domain Model
+### Domain Model
 
 All the samples in this workshop center around the `Todo` model and hence most are named `todos-blah-blah-blah`.  Each project scratches a particular Spring Boot + PCF itch but all share this simple `Todo` type.
 
@@ -170,7 +170,7 @@ class Todo implements Serializable {
 * [Mongo Blog Post](https://www.mongodb.com/blog/post/generating-globally-unique-identifiers-for-use-with-mongodb)
 * [Sonyflake distributed ids](https://github.com/sony/sonyflake)  
 
-#### todos-api
+### todos-api
 
 Todo(s) API is a sample Spring Boot service that uses `spring-boot-starter-web` to implement a REST API for `Todo(s)`.  Not listed in this set but similar is todos-webflux which is same API implemented using `spring-boot-starter-webflux` and hence non-blocking (and uses Netty container).
 
@@ -188,7 +188,7 @@ Todo(s) API is a sample Spring Boot service that uses `spring-boot-starter-web` 
 * [Java Buildpack](https://github.com/cloudfoundry/java-buildpack)
 * Spring Auto Reconfiguration - key is understanding the levels of auto-configuration at play on PCF
 
-#### todos-edge
+### todos-edge
 
 Todo(s) Edge is an edge abstraction for other Todo apps and serves as a client entry-point into app functionality and is implemented using [Spring Cloud Gateway](https://spring.io/projects/spring-cloud-gateway).  Todo(s) Edge is implemented using Kotlin however there's remarkably little code as the gateway is virtually all configuration.  The edge is configured to route traffic sent to `/todos/` to a backing API of some sort while root traffic contains the UI.  During certain sections of the workshop we'll use Spring Cloud to control where the edge sends traffic.
 
@@ -200,7 +200,7 @@ Todo(s) Edge is an edge abstraction for other Todo apps and serves as a client e
 * Spring Cloud Gateway
 * Netty
 
-#### todos-webui
+### todos-webui
 
 A sample frontend Vue.js app wrapped in Spring Boot
 
@@ -211,7 +211,7 @@ This application assumes the ``/todos`` endpoint is exposed from the same "origi
 
 ![Todo(s) WebUI](img/todos-webui.png "Todo(s) WebUI")
 
-#### todos-mysql
+### todos-mysql
 
 Inevitably you'll need to implement Microservices to talk with Databases. This repository contains a Microservice implemented in Kotlin using Spring Boot, Spring Cloud, Spring Data JPA anf Flyway.  It can be used as a standalone data service or as a backend for a Todo app.
 
@@ -227,7 +227,7 @@ Todo(s) Data uses Flyway to handle database schema creation and versioning. Usin
 * Flyway
 * MySQL for PCF
 
-#### todos-redis
+### todos-redis
 
 Todo(s) Redis is a simple Spring Data Redis backend for a Todo API.  It's used as the default "caching" layer in the workshop sample set.
 
@@ -240,7 +240,7 @@ Todo(s) Redis is a simple Spring Data Redis backend for a Todo API.  It's used a
 * Spring Data Redis
 * Caching Use Cases and Patterns
 
-#### todos-app
+### todos-app
 
 Todo(s) App is a composite backend for a fully functional Todo app, it contains look-aside caching and business logic and uses Spring Cloud for app to app connectivity.  We'll see how to configure a fully functional Todo application using this backend which integrates with a System of Record (Sor) service and a Cache service. All enabled with Spring Cloud, MySQL for PCF and Redis for PCF.
 
@@ -253,7 +253,7 @@ Todo(s) App is a composite backend for a fully functional Todo app, it contains 
 * RestTemplate
 * [Pivotal Blog - Caching Patterns](https://content.pivotal.io/blog/an-introduction-to-look-aside-vs-inline-caching-patterns)
 
-#### todos-shell
+### todos-shell
 
 Todo(s) shell is a [Spring Shell](https://projects.spring.io/spring-shell/) application used to automate configuration and deployment of Todo apps to PCF.  It uses the [CF Java Client](https://github.com/cloudfoundry/cf-java-client), your CF credentials and your locally compiled `todos-*` jars to automate app deployment to PCF.
 
