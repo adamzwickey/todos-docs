@@ -44,7 +44,7 @@ Each project can be cloned, built and pushed to PCF individually.  All that's re
 1. Java 8 JDK ([sdkman](https://sdkman.io/sdks#java) is a nice dev option)
 1. Maven 3 (again [sdkman](https://sdkman.io/sdks#maven))
 1. Make (for quick clone)
-1. [Cloud Foundry CLI](https://sdkman.io/sdks#java)
+1. [Cloud Foundry CLI](https://github.com/cloudfoundry/cli)
 1. [Curl](https://curl.haxx.se/) or [Httpie](https://httpie.org/)
 1. An editor and internet connection
 
@@ -72,7 +72,7 @@ ${someDir}/todos-app
 ${someDir}/todos-shell
 ```
 
-1. Clone this project (the one you're reading) as `todos-shell`
+1. Clone the `todos-shell` project
 1. cd into `todos-shell`
 1. Run `make clone` to clone all the projects
 1. Afterwards you should have these projects in `todos-shell/apps`
@@ -201,26 +201,50 @@ push-scs-redis: todos-edge,todos-redis,todos-webui with spring-cloud
 * Stamping out Todo apps...now what?
 * Next steps...Users, tenancy and SSO
 
-## Spring Cloud for PCF
+---
 
-## MySQL for PCF
+## Shop 0
 
-## Redis for PCF
+### Setting up projects, PCF accounts and cf push ice-breaker
 
-## RabbitMQ for PCF
+This Shop is all about setting up the projects and doing a CF push ice-breaker.  The best way to get started it to clone [Todo(s) Shell](https://github.com/corbtastik/todos-edge) (or download zip) and run the following make command to clone all the projects.
 
-## Spring Cloud Streams
+1. Complete [Projects Setup](#projects-setup) and initial build
+1. You should have these projects cloned to the same directory on your machine
 
-## Spring Cloud Tasks
+    ```bash
+    ${someDir}/todos-api
+    ${someDir}/todos-edge
+    ${someDir}/todos-webui
+    ${someDir}/todos-mysql
+    ${someDir}/todos-redis
+    ${someDir}/todos-app
+    ${someDir}/todos-shell
+    ```
+1. Make sure you've installed the [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) as mentioned in [PreReqs](#prereqs)
+1. Login to Pivotal Cloud Foundry with CLI - *Note* you will need your username and password for PCF.
 
-## Shop 0 - Setting up projects, PCF accounts and cf push
+    ```bash
+    # -a use your API endpoint,
+    # skip SSL cert validation if you're using self-signed certificates
+    $ cf login -a api.sys.retro.io --skip-ssl-validation
+    ```
+1. [Login to Pivotal Apps Manager](https://docs.pivotal.io/pivotalcf/customizing/console-login.html), typically this is hosted at `apps.YOUR-SYSTEM-DOMAIN`, in this sample my System Domain is `sys.retro.io`, yours will be different.
+1. If needed you can use Pivotal Apps Manager to download the cf-cli for your OS as well as copy the required `cf login` command for your PCF endpoint.
 
-## Shop 1 - Introduce Todo sample set (whiteboard or slide with picture)
+![Apps Man Tools](img/apps-man-tools.png "Apps Man Tools")
+
+
+## Shop 1
+
+### Introduce Todo sample set (whiteboard or slide with picture)
 
 * Intro to Spring Boot
 * Code or inspect Todo API locally and cf push
 
-## Shop 2 - Introduce Spring Cloud to sample set
+## Shop 2
+
+### Introduce Spring Cloud for Todo sample set
 
 * Intro to Spring Cloud
 * Configure git repository for application configs
@@ -233,7 +257,7 @@ push-scs-redis: todos-edge,todos-redis,todos-webui with spring-cloud
 
 ## Shop 3
 
-### Introduce Spring Cloud Gateway and WebUI
+### Introduce Edge (Spring Cloud Gateway) and WebUI (Spring Boot + Vue.js) apps
 
 * Refer back to the picture we're building
 * Introduce Spring Cloud Gateway as an application edge and routing tool
@@ -281,7 +305,9 @@ Push the Edge, API and UI with the ``manifest-internal.yml`` from each project a
     ```
 1. Push todo-edge with internal routes ``cf push -f manifest-internal.yml`` (awwwweee yeah)
 
-## Shop 5 - Introduce backing services for MySQL and Redis
+## Shop 5
+
+### Introduce backing services for MySQL and Redis
 
 * Refer back to the picture we're building...it would be nice to swap out todos-api which is just keeping an internal map of the data with something more apropos.  For instance with a database like MySQL or NoSQL store like Redis.
 * Introduce
@@ -298,8 +324,39 @@ Push the Edge, API and UI with the ``manifest-internal.yml`` from each project a
 * Refresh todos-edge
 * Access your Todo(s) app and take note of data persistence in backing MySQL db
 * Repeat the process again, configuring your todos-edge to use todos-redis instead
-* Extra mile stuff - Using todos-shell deploy a ready made Todo(s) App with a MySQL backed API by running `shell:>push-my-sql --tag myapp`
+* Extra mile stuff - Using todos-shell deploy a ready made Todo(s) App with a MySQL backed API by running `shell:>push-scs-my-sql --tag myscs`
 * Discuss pros and cons of both types of stores
 * Start to introduce caching use-cases, patterns and position Pivotal Cloud Cache
 
         What have you done up to this point?  ...At this point in the shop each attendee should have coded, inspected, modified Spring Boot source code to at least 1 of 5 repositories, or perhaps just implemented some of these samples by hand as some have actually done.  At any rate attendees have seen and/or originated code for an Edge, API and/or UI app with and without Spring Cloud.  Been introduced to Java life on PCF (i.e. Java Buildpack and its features and perhaps with how to control), developers always want to know about JAVA_OPS, vm args and debugging java apps), how containers are built and the benefits of platform baked containers.  Folks should also have been introduced to backing services on PCF and how such services are consumed from Spring Boot apps.  This brings about an opportunity to discuss Spring Auto Reconfiguration in the Java Buildpack.  Developers at this point will typically ask questions around "Connection Pooling and Management", where does the DataSource come from?  
+
+## Shop 6 
+
+### Lookaside Caching Backend
+
+This Shop puts together a backend for our Todo(s) app that implements Lookaside caching at the app level and leverages previously deployed todos-mysql and todos-redis instances as the System of Record and Cache respectively.  This Shop is focused on using cloud-native connectivity baked into Spring Cloud apps, for example the Lookaside Caching app (todos-app) integrates with the Sor and Cache using DiscoveryService and hence is able to leverage internal name resolution.  IPs and URIs come and go, Spring Cloud can go a long way to insulate application code from physical network properties.
+
+*Note* that todos-app also fires events that Streams deployed in Shop 7 will use.
+
+1. Inspect code for todos-app, discuss how DiscoveryService and RestTemplate gets created and name resolution in Spring Cloud
+1. Configure VIPs for the Sor and Cache on Lookaside app
+1. Push Lookaside Caching Backend
+1. Configure Edge to use Lookaside Caching Backend
+1. Refresh Edge
+1. Access the UI
+
+## Shop 7
+
+### Spring Cloud Streams integration
+
+In this Shop we code, inspect and deploy 3 Spring Cloud Stream apps and integrate using RabbitMQ for PCF to handle messaging.  
+
+1. Code, Inspect and Build todos-sink and todos-processor
+1. Create an on-demand rabbitmq service if one has not already been created, call it `todos-messaging` or `${yourname}-todos-messaging`.
+1. Configure todos-sink and todos-processor with the rabbitmq service
+1. Configure todos-sink and todos-processor with Spring Cloud services
+1. Push the 2 apps to PCF
+1. Note two things
+    1. Now events being sent from todos-app are being written to the Sor
+    1. Any Todo entered with a "hashtag" will be indexed (i.e. "Get some peanut butter #groceries")
+1. Where to go from here?  Spring Cloud Tasks then Spring Cloud Data Flow
