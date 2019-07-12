@@ -42,6 +42,7 @@ class Todo implements Serializable {
 Each project can be cloned, built and pushed to PCF individually.  All that's required to work with the projects locally are listed below.
 
 1. Java 8 JDK ([sdkman](https://sdkman.io/sdks#java) is a nice dev option)
+1. [Git client](https://git-scm.com/downloads)
 1. Maven 3 (again [sdkman](https://sdkman.io/sdks#maven))
 1. Make (for quick clone)
 1. [Cloud Foundry CLI](https://github.com/cloudfoundry/cli)
@@ -234,6 +235,45 @@ This Shop is all about setting up the projects and doing a CF push ice-breaker. 
 
 ![Apps Man Tools](img/apps-man-tools.png "Apps Man Tools")
 
+1. Grok the cf-cli - run the following commands
+    1. `cf -v`
+    1. `cf target`
+    1. `cf domains`
+    1. `cf buildpacks`
+    1. `cf marketplace`
+
+1. Compile and Push ice-breaker [App](#todos-api)
+
+Edit the manifest.yml in `todos-api` to your liking.  Use a unique name for your application name, recommend to prefix with your name.
+
+**manifest.yml**
+
+```yaml
+---
+applications:
+# use something unique, for example corbs-todos-api    
+- name: todos-api 
+memory: 1G
+path: target/todos-api-1.0.0.SNAP.jar
+buildpack: java_buildpack
+env:
+    TODOS_API_LIMIT: 1024
+```
+
+**compile and push**
+
+```bash
+> cd ${someDir}/todos-api
+> git checkout master # (should already be on master branch)
+> mvnw clean package
+> cf push
+```
+
+PCF is capable of containerizing many different types of applications, take a look at these samples to get a feel for what PCF supports.
+
+1. [Java examples](https://github.com/cloudfoundry/java-buildpack#examples)
+1. [CF Sample Apps](https://github.com/cloudfoundry-samples)
+1. [SSO Samples](https://github.com/pivotal-cf/identity-sample-apps)
 
 ## Shop 1
 
