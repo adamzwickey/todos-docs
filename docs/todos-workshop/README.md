@@ -303,46 +303,17 @@ At the end of this Shop you'll have 3 apps running in PCF that have been manuall
 * Extra mile - Use Todo Shell to automate pushing the apps
     * `shell:>push-app --tag corbs`
 
+Pause...take a quick review and field questions
+
 ---
 
 ## Shop 2
-
-### Introduce Spring Cloud for Todo sample set
-
-* Intro to Spring Cloud
-* Configure git repository for application configs
-* Provision p-config-server, walk through configuration options
-* Code and/or inspect Todos API locally and cf push with Spring Cloud enabled
-* Make config change
-* Refresh Todos API
-* Show updated configuration and walk through how the refresh works
-* Next steps - refresh bus, encrypted values
-
----
-
-## Shop 3
-
-### Introduce Edge (Spring Cloud Gateway) and WebUI (Spring Boot + Vue.js) apps
-
-* Refer back to the picture we're building
-* Introduce Spring Cloud Gateway as an application edge and routing tool
-* Inspect Todo(s) Edge code and configuration and walk through how routes are handled
-* Inspect both master and cloud branches for differences, note cloud branch uses Spring Cloud semantics for connectivity so we can stop maintaining URIs and such.  
-* Introduce WebUI and simply show it's a Spring Boot app vendoring a frontend Javascript/HTML/CSS app.  
-* Manually configure (master branch) todos-edge,todos-api,todos-webui and cf push
-* Confirm the app is functioning, users should now have a UI similar to [this](#todos-webui).
-* Slap a high-five or something as you've manually completed pushing the app
-* Extra mile stuff - use [Todo(s) Shell](#todos-shell) to automate the deployment of the same three apps as one functioning "Todo app" on PCF.  The shell will use your PCF creds and push configured apps to PCF.  Each deploy results in 3 apps running (todos-edge,todos-api,todos-webui) each with a user provided "tag" which will prefix the running app instances.
-
----
-
-## Shop 4
 
 ### Internal Routes on PCF
 
 We can restrict access to the Backend API and UI by removing public routes for those apps and then mapping them to an internal domain (``apps.internal``).  Once the apps have an internal route we can add a network policy that allows the Edge to call them.
 
-Push the Edge, API and UI with the ``manifest-internal.yml`` from each project and the result will be a deployment where the Edge is the access point for the Todo app and the API and UI apps aren't over-exposed on the network.
+Push the Edge, API and UI with the ``manifest-internal.yml`` from each project and the result will be a deployment where the Edge is the only node that can access the API and UI apps.
 
 1. Push todos-api and todos-webui with the ``manifest-internal.yml`` in each project
 1. Push the todos-edge and configure the API and UI internal routes in ``manifest-internal.yml``
@@ -371,6 +342,48 @@ Push the Edge, API and UI with the ``manifest-internal.yml`` from each project a
     todos-edge   todos-webui   tcp        8080    
     ```
 1. Push todo-edge with internal routes ``cf push -f manifest-internal.yml`` (awwwweee yeah)
+* Extra mile - Use Todo Shell to automate pushing the apps with private networking
+    * `shell:>push-internal --tag myinternalapp`
+
+---
+
+## Shop 3
+
+### Introduce Spring Cloud for Todo sample set
+
+* Intro to Spring Cloud (setup for this sample set)
+* Configure git repository for application configs
+* Provision p-config-server, walk through configuration options
+* Switch todos-edge, todos-api, todos-webui to cloud branch
+* Code and/or inspection time
+    * Spring Cloud Services dependencies
+    * Open Source Spring Cloud versions
+    * Application configuration
+* Build todos-edge, todos-api, todos-webui
+* Configure manifests to bind to Config Server and Service Registry instances
+* cf push todos-edge, todos-api, todos-webui
+* Make config change to todos-webui placeholder property to customize the UI placeholder.
+* Refresh Todos WebUI
+* Show updated placeholder on WebUI and walk through how the refresh works
+* Next steps - refresh bus, encrypted values
+* Extra mile - Use Todo Shell to automate pushing Spring Cloud Service ready apps
+    * `shell:>push-scs --tag myscsapp`
+
+---
+
+## Shop 4
+
+### Introduce Edge (Spring Cloud Gateway) and WebUI (Spring Boot + Vue.js) apps
+
+* Refer back to the picture we're building
+* Introduce Spring Cloud Gateway as an application edge and routing tool
+* Inspect Todo(s) Edge code and configuration and walk through how routes are handled
+* Inspect both master and cloud branches for differences, note cloud branch uses Spring Cloud semantics for connectivity so we can stop maintaining URIs and such.  
+* Introduce WebUI and simply show it's a Spring Boot app vendoring a frontend Javascript/HTML/CSS app.  
+* Manually configure (master branch) todos-edge,todos-api,todos-webui and cf push
+* Confirm the app is functioning, users should now have a UI similar to [this](#todos-webui).
+* Slap a high-five or something as you've manually completed pushing the app
+* Extra mile stuff - use [Todo(s) Shell](#todos-shell) to automate the deployment of the same three apps as one functioning "Todo app" on PCF.  The shell will use your PCF creds and push configured apps to PCF.  Each deploy results in 3 apps running (todos-edge,todos-api,todos-webui) each with a user provided "tag" which will prefix the running app instances.
 
 ---
 
