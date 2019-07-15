@@ -49,6 +49,7 @@ javac 1.8.0_212
 > cf -v      
 cf version 6.46.0+29d6257f1.2019-07-09
 ```
+1. A Browser - [Chrome Recommended](https://www.google.com/chrome/)
 
 1. [Curl](https://curl.haxx.se/) or [Httpie](https://httpie.org/) - for being able to manually send various api/app requests.  [Post Man](https://www.getpostman.com/) or any http client you're comfortable with is probably fine.
 
@@ -404,7 +405,7 @@ PCF is capable of containerizing many different types of applications, take a lo
 
 ### Introduce Todo sample set (whiteboard or slide with picture)
 
-In this Shop we're going to build a simple 3 service App that consist of a backing API implemented in Spring Boot, a UI which is a Spring Boot vendored Vue.js app and an Edge implemented with Spring Cloud Gateway to help with application level routing.
+In this Shop we're going to build a simple 3 service App that consist of a [backing API](#todos-api) implemented in Spring Boot, a [UI which is a Spring Boot vendored Vue.js app](#todos-webui) and an Edge implemented with Spring Cloud Gateway to help with application level routing.
 
 This Shop is plain-ole Spring Boot without Spring Cloud (which is later) and relies simply on core PCF features.
 
@@ -430,7 +431,11 @@ cd ../todos-webui
 cd ..
 ```
 
-A successful build puts a Spring Boot jar in each projects `target` directory, for example you should have these jars after building `todos-api`, `todos-edge` and `todos-webui`.
+A successful build puts a Spring Boot jar in each projects `target` directory, for example you should have these jars after building
+
+* [`todos-api`](#todos-api)
+* [`todos-edge`](#todos-edge)
+* [`todos-webui`](#todos-webui)
 
 ```bash
 cd ~/Desktop/todos-apps
@@ -442,14 +447,17 @@ cd ~/Desktop/todos-apps
 
 ### 2. Push to PCF
 
-Pick a unique "tag" and stick with it throughout the workshop, in the docs and snippets below this is represented by the text `YOUR`.
+Pick a unique "**tag**" and stick with it throughout the workshop, in the docs and snippets below this is represented by the text `YOUR`.
 
 * Configure manifests for
     * `todos-api/manifest.yml`
-    * `todos-webui/manifest.yml` 
+    * `todos-webui/manifest.yml`
     * `todos-edge/manifest.yml`
-* `cf domains` - to figure out which domains you fall under, in the snippet below `apps.retro.io` is the cf domain.  On PWS the domain is `cfapps.io`
+* `cf domains` - to figure out which domains you fall under
+    * In the snippet below `apps.retro.io` is the cf domain
+    * On PWS the domain would be `cfapps.io`
 * `cf buildpacks` - to figure out the exact java buildpack name, its safe to remove the `buildpack` property from the `manifest.yml` files and let PCF figure out which to use
+    * This sample set uses the [Java Buildpack](https://github.com/cloudfoundry/java-buildpack)
 
 #### todos-api manifest
 
@@ -519,7 +527,7 @@ cf apps
 > your-todos-webui started 1/1       1G     4G   your-todos-webui.apps.retro.io
 ```
 
-* Open your todos-webui url in a browser (Chrome recommended) and notice the failed resource error.  The UI isn't connected to anything at this point.
+* Open your todos-webui url in a browser ([Chrome recommended](https://www.google.com/chrome/)) and notice the failed resource error.  The UI isn't connected to anything at this point.
 
 ![Todo(s) WebUI endpoint](img/todos-webui-endpoint.png "Todo(s) WebUI endpoint")
 
@@ -534,6 +542,7 @@ applications:
   memory: 1G
   path: target/todos-edge-1.0.0.SNAP.jar
   env:
+  # add YOUR endpoints
     TODOS_UI_ENDPOINT: https://YOUR-todos-webui.apps.retro.io
     TODOS_API_ENDPOINT: https://YOUR-todos-api.apps.retro.io
 ```
@@ -553,7 +562,7 @@ cf apps
 > your-todos-edge started 1/1       1G     4G   your-todos-edge.apps.retro.io
 ```
 
-* Open your `todos-edge` url in Chrome
+* Open `todos-edge` in Chrome
     * You'll have a route to your `todos-edge` app...for example `https://your-todos-edge.apps.retro.io`
 
 ![Todo(s) Edge endpoint](img/todos-edge-endpoint.png "Todo(s) Edge endpoint")
@@ -565,7 +574,7 @@ cf apps
 
 * Create a custom route in cf and map to your `todos-edge` to `SOMETHING`
     * `cf map-route your-todos-edge apps.retro.io --hostname SOMETHING`
-* Use [Todo(s) Shell](#todos-shell) to automate the deployment of the same three apps as a single functioning "Todo app" on PCF with one command.  The shell will use your PCF creds and push configured apps to PCF.  Each deploy results in 3 apps running (`todos-edge`,`todos-api`,`todos-webui`) each with a user provided "tag" which will prefix the running app instances.
+* Use [Todo(s) Shell](#todos-shell) to automate the deployment of the same three apps as a single functioning "Todo app" on PCF with one command.  The shell will use your PCF creds and push configured apps to the platform.  The deploy results in 3 apps running (`todos-edge`,`todos-api`,`todos-webui`) each with a user provided "tag" which will prefix the running instances.
     * `shell:>push-app --tag corbs`
 
 Pause...take a quick review and field questions
@@ -585,37 +594,71 @@ Pause...take a quick review and field questions
 
 We can restrict access to the Backend API and UI by removing public routes for those apps and then mapping them to an internal domain (``apps.internal``).  Once the apps have an internal route we can add a network policy that allows the Edge to call them.
 
-Push the Edge, API and UI with the ``manifest-internal.yml`` from each project and the result will be a deployment where the Edge is the only node that can access the API and UI apps.
+1. Repeat pushing `todos-api` and `todos-webui` but this time set the [domain](https://docs.pivotal.io/pivotalcf/devguide/deploy-apps/routes-domains.html) to an internal one.
 
-1. Push todos-api and todos-webui with the ``manifest-internal.yml`` in each project
-1. Push the todos-edge and configure the API and UI internal routes in ``manifest-internal.yml``
-1. Configure `todos.api.endpoint` and `todos.ui.endpoint` in `manifest-internal.yml`
-    ```yaml
-    ---
-    applications:
-    - name: todos-edge
-      memory: 1G
-      routes:
-      - route: todos-edge.apps.retro.io
-      - route: todos.apps.retro.io  
-      path: target/todos-edge-1.0.0.SNAP.jar
-      env: # internal routes
-        TODOS_UI_ENDPOINT: http://todos-ui.apps.internal:8080
-        TODOS_API_ENDPOINT: http://todos-api.apps.internal:8080
-    ```
-1. Add network policy to allow access to API and UI from Edge
     ```bash
-    $ cf add-network-policy todos-edge --destination-app todos-api
-    $ cf add-network-policy todos-edge --destination-app todos-webui
-    $ cf network-policies
+    cd ~/Desktop/todos-apps/todos-api
+    cf domains
+    > name                 status   details
+    > apps.retro.io        shared          
+    > mesh.apps.retro.io   shared          
+    > apps.internal        shared   internal
+    cf push your-todos-api -d apps.internal
+    ```
+
+    ```bash
+    cd ~/Desktop/todos-apps/todos-webui
+    cf push your-todos-webui -d apps.internal
+    ```
+
+1. Use cf set-env to update endpoints on YOUR-todos-edge to the internal ones
+
+    ```bash
+    cd ~/Desktop/todos-apps/todos-edge
+    cf set-env your-todos-edge TODOS_API_ENDPOINT http://your-todos-api.apps.internal:8080
+    cf set-env your-todos-edge TODOS_UI_ENDPOINT http://your-todos-webui.apps.internal:8080
+    # unmap the public routes for API and UI
+    cf unmap-route your-todos-api apps.retro.io --hostname your-todos-api
+    cf unmap-route your-todos-webui apps.retro.io --hostname your-todos-webui
+    cf restage your-todos-edge
+    ```
+
+1. Un-map public routes for YOUR-todos-api and YOUR-todos-webui
+
+    ```bash
+    cd ~/Desktop/todos-apps/todos-edge
+    cf unmap-route your-todos-api apps.retro.io --hostname your-todos-api
+    cf unmap-route your-todos-webui apps.retro.io --hostname your-todos-webui
+    ```
+
+1. Restage YOUR-todos-edge
+
+    ```bash
+    cd ~/Desktop/todos-apps/todos-edge
+    cf restage your-todos-edge
+    ```
+
+1. Add network policy to allow access to YOUR-todos-api and YOUR-todos-webui from only YOUR-todos-edge
+
+    ```bash
+    cd ~/Desktop/todos-apps/todos-edge
+    cf network-policies
+    cf add-network-policy your-todos-edge --destination-app your-todos-api
+    cf add-network-policy your-todos-edge --destination-app your-todos-webui
+    cf network-policies
     Listing network policies in org retro / space arcade as corbs...
     source       destination   protocol   ports
     todos-edge   todos-api     tcp        8080
-    todos-edge   todos-webui   tcp        8080    
+    todos-edge   todos-webui   tcp        8080
     ```
-1. Push todo-edge with internal routes ``cf push -f manifest-internal.yml`` (awwwweee yeah)
+
+1. Open `YOUR-todos-edge` in Chrome
+    * You'll have a route to your `YOUR-todos-edge` app...for example `https://your-todos-edge.apps.retro.io`
+
+* Note that only your edge application can communicate with the API and UI and now those deployments aren't over exposed on the network.  This is accomplished by [Container to Container networking](https://docs.pivotal.io/pivotalcf/devguide/deploy-apps/cf-networking.html) in PCF.
 * Extra mile - Use Todo Shell to automate pushing the apps with private networking
     * `shell:>push-internal --tag myinternalapp`
+
 
 ---
 
