@@ -775,7 +775,32 @@ Build Spring Cloud ready versions of `todos-edge`, `todos-api` and `todos-webui`
 
 Manual steps to build, same as before except this time we build with [spring-cloud dependencies](https://docs.pivotal.io/spring-cloud-services/2-0/common/client-dependencies.html).
 
-* [Including Spring Cloud Services Dependencies](https://docs.pivotal.io/spring-cloud-services/2-0/common/client-dependencies.html#including-dependencies)
+Each `pom.xml` on the `cloud` branch will contain these Spring Cloud Services dependencies.  See [Including Spring Cloud Services Dependencies](https://docs.pivotal.io/spring-cloud-services/2-0/common/client-dependencies.html#including-dependencies).
+
+```xml
+    <dependencies>
+        <!-- Required for SCS Config Server
+             brings in Spring Cloud Config Client
+             and Spring Security OAuth 2 -->
+        <dependency>
+            <groupId>io.pivotal.spring.cloud</groupId>
+            <artifactId>
+                spring-cloud-services-starter-config-client
+            </artifactId>
+        </dependency>
+        <!-- Required for SCS Service Discovery
+            brings in Spring Cloud Netflix Eureka Client,
+            Jersey Client, Spring Security OAuth 2 -->
+        <dependency>
+            <groupId>io.pivotal.spring.cloud</groupId>
+            <artifactId>
+                spring-cloud-services-starter-service-registry
+            </artifactId>
+        </dependency>
+
+    <!-- other dependencies -->
+    </dependencies>
+```
 
 ```bash
 # change into your working directory (i.e. todos-apps)
