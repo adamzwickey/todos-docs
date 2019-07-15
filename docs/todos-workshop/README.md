@@ -685,7 +685,7 @@ This Shop is about getting familiar with [Spring Cloud Services for PCF](https:/
 
 ### Git Repository for application config
 
-First things first is getting a git-repo that you have read/write access to to save and pull app configs from.
+First things first is getting a git-repo that you have read/write access on to save and pull app configs.
 
 * If forking from github is an option then [fork this repository](https://github.com/corbtastik/todos-config) and clone into your samples working directory.  After the clone your samples working directory should look like so.  *Note* you may need to remove the existing `todos-config` folder in your samples working directory first.
 
