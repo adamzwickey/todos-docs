@@ -696,7 +696,7 @@ This Shop is about getting familiar with [Spring Cloud Services for PCF](https:/
     > ./todos-sink
     ```
 
-* If forking isn't an option then commit the `todos-config` folder to a new git-repo that you have access to.
+* If forking isn't an option then commit the `todos-config` folder to a new git-repo (replace `YOUR-GITHUB-ACCT` below) that you have access to.
 
     For example:
 
