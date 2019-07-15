@@ -83,7 +83,7 @@ curl -H "Authorization: $(cf oauth-token)" https://config-721a0c02-2ec8-466b-bea
 
 Project setup is pretty straightforward as each sample is [standard spring boot](https://start.spring.io) with maven. Each is its own "project" and git repository.  So to get all the samples we need to clone multiple repositories...9 to be exact but they're small so its not too bad.
 
-The only **must have** is all projects should exist on the file-system as siblings...at least for general sanity.  Like so...
+The only **must have** is all projects should exist on the file-system as siblings...at least for general sanity.
 
 So first step is define a local directory to work out of and clone every project into it...see screenshot below as an example.
 
