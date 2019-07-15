@@ -683,9 +683,9 @@ This Shop is about getting familiar with [Spring Cloud Services for PCF](https:/
 
 ![Todos Samples with SCS](img/shop-3.png "Shop 3")
 
-1. Getting a git repo to hold application configurations
+### Git Repository for application config
 
-    First things first is getting a git-repo that you have read/write access to to save and pull app configs from.
+First things first is getting a git-repo that you have read/write access to to save and pull app configs from.
 
 * If forking from github is an option then [fork this repository](https://github.com/corbtastik/todos-config) and clone into your samples working directory.  After the clone your samples working directory should look like so.  *Note* you may need to remove the existing `todos-config` folder in your samples working directory first.
 
@@ -718,7 +718,7 @@ This Shop is about getting familiar with [Spring Cloud Services for PCF](https:/
     git push -u origin master
     ```
 
-2. Creating a Spring Cloud Config Service Instance
+### Creating a Spring Cloud Config Service Instance
 
 We want to control application configurations from a central place and [Spring Cloud Config server](https://docs.pivotal.io/spring-cloud-services/2-0/common/config-server/index.html) is a great way to get up and running.  First let's create a basic Spring Cloud Config Service instance and configure with your `todos-config` repository.
 
@@ -735,7 +735,7 @@ cf service your-todos-config
 > status:    create succeeded
 ```
 
-3. Creating a Spring Cloud Service Registry Instance
+### Creating a Spring Cloud Service Registry Instance
 
 We also want an eco-system where applications can connect with other applications and remove the burden of needing to configure URLs and client-side application access.  [Spring Cloud Service Registry](https://docs.pivotal.io/spring-cloud-services/2-0/common/service-registry/index.html) can help "connect" our apps in a Spring Cloud context.
 
@@ -751,7 +751,9 @@ cf service your-todos-registry
 > status:    create succeeded
 ```
 
-4. Switch to cloud branch on `todos-edge`, `todos-api`, `todos-webui` samples, you may need to stash or commit local code changes to master branch before checking out cloud.
+### Inspect cloud branch
+
+Switch to cloud branch on `todos-edge`, `todos-api`, `todos-webui` samples, you may need to stash or commit local code changes to master branch before checking out cloud.
 
 ```bash
 cd ~/Desktop/todos-apps/todos-api
@@ -767,7 +769,9 @@ git checkout cloud
     * Open Source Spring Cloud versions
     * Application configuration
 
-5. Build Spring Cloud ready versions of `todos-edge`, `todos-api` and `todos-webui`
+### Build Spring Cloud apps
+
+Build Spring Cloud ready versions of `todos-edge`, `todos-api` and `todos-webui`
 
 Manual steps to build, same as before except this time we build with [spring-cloud dependencies](https://docs.pivotal.io/spring-cloud-services/2-0/common/client-dependencies.html).
 
@@ -785,11 +789,15 @@ cd ../todos-webui
 cd ..
 ```
 
-6. Configure manifests to bind to Spring Cloud services instances created above
+### Configure manifests for Spring Cloud apps
 
-Edit the manifest for `todos-api` and make sure `YOUR` services are configured.  Spring Cloud Services uses HTTPs for all client-to-service communication.  The `TRUST_CERTS` environment variable is applicable if your PCF environment uses Self-Signed Certificates.  Spring Cloud Services will add this Self-Signed Certificate to the JVM trust-store so Spring Cloud pushed apps can register and consume Spring Cloud Services using HTTPs.
+Configure manifests to bind to Spring Cloud services instances created above
 
-Set `TRUST_CERTS` to your PCF api endpoint (`cf target`), if you're using Self-Signed Certs.
+Spring Cloud Services uses HTTPs for all client-to-service communication.  The `TRUST_CERTS` environment variable is applicable if your PCF environment uses Self-Signed Certificates.  Spring Cloud Services will add this Self-Signed Certificate to the JVM trust-store so Spring Cloud pushed apps can register and consume Spring Cloud Services using HTTPs.
+
+Set `TRUST_CERTS` to your PCF api endpoint (`cf target`), if you're using Self-Signed Certificates.
+
+Edit the manifests for `YOUR` apps, making sure the `services` configuration has `YOUR` Config Server and Service Registry instance.
 
 #### todos-api cloud manifest
 
@@ -840,7 +848,59 @@ applications:
     TRUST_CERTS: api.sys.retro.io
 ```
 
-* cf push todos-edge, todos-api, todos-webui
+### Push Spring Cloud apps to PCF
+
+#### Push todos-api cloud
+
+Replacing `YOUR` with your unique app tag.  **Note** - Leave the `-todos-api` suffix.
+
+* `cf push YOUR-todos-api` - PCF will again use the Java Buildpack to containerize the application and schedule a container instance to run our Spring Cloud app.
+
+```bash
+cd ~/Desktop/todos-apps/todos-api
+cf push your-todos-api
+cf apps
+> Getting apps in org retro / space arcade as corbs...
+> OK
+> name         state   instances memory disk urls
+> your-todos-api started 1/1       1G     4G   your-todos-api.apps.retro.io
+```
+
+#### Push todos-webui cloud
+
+Replacing `YOUR` with your unique app tag.  **Note** - Leave the `-todos-webui` suffix.
+
+* `cf push YOUR-todos-webui` - PCF will again use the Java Buildpack to containerize the application and schedule a container instance to run our Spring Cloud app.
+
+```bash
+cd ~/Desktop/todos-apps/todos-webui
+cf push your-todos-webui
+cf apps
+> Getting apps in org retro / space arcade as corbs...
+> OK
+> name         state   instances memory disk urls
+> your-todos-webui started 1/1       1G     4G   your-todos-webui.apps.retro.io
+```
+
+#### Push todos-edge cloud
+
+Replacing `YOUR` with your unique app tag.  **Note** - Leave the `-todos-edge` suffix.
+
+* `cf push YOUR-todos-edge` - PCF will again use the Java Buildpack to containerize the application and schedule a container instance to run our Spring Cloud app.
+
+```bash
+cd ~/Desktop/todos-apps/todos-edge
+cf push your-todos-edge
+cf apps
+> Getting apps in org retro / space arcade as corbs...
+> OK
+> name         state   instances memory disk urls
+> your-todos-edge started 1/1       1G     4G   your-todos-edge.apps.retro.io
+```
+
+### Sync Point
+
+* Review what PCF together with Spring Cloud Services did to bind backing services and for the apps to pull cloud configs and register with Service Registry.
 * Make config change to todos-webui `placeholder` property to customize the UI placeholder.
 * Refresh Todos WebUI
 * Show updated placeholder on WebUI and walk through how the refresh works
