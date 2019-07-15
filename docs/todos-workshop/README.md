@@ -396,7 +396,7 @@ PCF is capable of containerizing many different types of applications, take a lo
     1. `cf domains`
     1. `cf buildpacks`
     1. `cf marketplace`
-    1. `cf logs corbs-todos-api --recent`
+    1. `cf logs your-todos-api --recent`
 
 ---
 
