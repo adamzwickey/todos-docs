@@ -91,16 +91,16 @@ After you clone or unzip the projects directory should look like so...
 
 ```bash
 corbs@corbspro:~/Desktop/todos-apps
-> ls -al
-./todos-api
-./todos-app
-./todos-edge
-./todos-mysql
-./todos-processor
-./todos-redis
-./todos-shell
-./todos-sink
-./todos-webui
+ls -al
+> ./todos-api
+> ./todos-app
+> ./todos-edge
+> ./todos-mysql
+> ./todos-processor
+> ./todos-redis
+> ./todos-shell
+> ./todos-sink
+> ./todos-webui
 ```
 
 ![Todo(s) Apps on File System](img/todos-apps-finder.png "Todo(s) Apps on File System")
