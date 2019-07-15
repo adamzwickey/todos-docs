@@ -669,16 +669,78 @@ We can restrict access to the Backend API and UI by removing public routes for t
 
 ## Shop 3
 
+### Spring Cloud for Todo sample set
+
 This Shop is about getting familiar with [Spring Cloud Services for PCF](https://docs.pivotal.io/spring-cloud-services/common/index.html) by adding [Spring Cloud](https://spring.io/projects/spring-cloud) dependencies to the Todo(s) sample set.  Once this Shop is complete you'll have virtually the same deployment of apps with the added benefit of Spring Cloud to handle Configuration and Connectivity.
 
 ![Todos Samples with SCS](img/shop-3.png "Shop 3")
 
-### Spring Cloud for Todo sample set
+1. Getting a git repo to hold application configurations
 
-* Intro to Spring Cloud (setup for this sample set)
-* Configure git repository for application configs
-* Provision p-config-server, walk through configuration options
-* Provision p-service-registry, walk through configuration options
+    First things first is getting a git-repo that you have read/write access to to save and pull app configs from.
+
+* If forking from github is an option then [fork this repository](https://github.com/corbtastik/todos-config) and clone into your samples working directory.  After the clone your samples working directory should look like so.  *Note* you may need to remove the existing `todos-config` folder in your samples working directory first.
+
+    ```bash
+    cd ~/Desktop/todos-apps
+    ls
+    > ./todos-api
+    > ./todos-app
+    > ./todos-config # from fork-clone
+    > ./todos-edge
+    > ./todos-webui
+    > ./todos-mysql
+    > ./todos-processor
+    > ./todos-redis
+    > ./todos-shell
+    > ./todos-sink
+    ```
+
+* If forking isn't an option then commit the `todos-config` folder to a new git-repo that you have access to.
+
+    For example:
+
+    ```bash
+    cd ~/Desktop/todos-apps/todos-config
+    rm -rf .git # to remove existing git-repo
+    git init
+    git add *.yml
+    git commit -m "Initial commit - adding all application configs"
+    git remote add origin git@github.com:YOUR-GITHUB-ACCT/todos-config.git
+    git push -u origin master
+    ```
+
+2. Creating a Spring Cloud Config Service Instance
+
+We want to control application configurations from a central place and Spring Cloud Config server is a great way to get up and running.  First let's create a basic Spring Cloud Config Service instance and configure with your `todos-config` repository.
+
+```bash
+cd ~/Desktop/todos-apps/pcf-config-server
+cf create-service p-config-server standard your-todos-config \
+    -c '{"git": { "uri": "https://github.com/corbtastik/todos-config", "label": "master" } }'
+# after a few moments check the status
+cf service your-todos-config
+> name:      your-todos-config
+> service:   p-config-server
+> status:    create succeeded
+```
+
+3. Creating a Spring Cloud Service Registry Instance
+
+We also want an eco-system where applications can connect with other applications and remove the burden of needing to configure URLs and client-side application access.  Spring Cloud Service Registry can help "connect" our apps in a Spring Cloud context.
+
+Use `cf create-service` to provision `YOUR` Service Registry instance.
+
+```bash
+cd ~/Desktop/todos-apps/pcf-service-registry
+cf create-service p-service-registry standard your-todos-registry
+# after a few moments check the status
+cf service your-todos-registry
+> name:      your-todos-registry
+> service:   p-service-registry
+> status:    create succeeded
+```
+
 * Switch todos-edge, todos-api, todos-webui to cloud branch
 * Code and/or inspection time
     * Spring Cloud Services dependencies
