@@ -330,15 +330,17 @@ This Shop is all about getting started with the projects and doing a CF push ice
 1. You should have these projects cloned to the same directory on your machine
 
     ```bash
-    ${someDir}/todos-api
-    ${someDir}/todos-app
-    ${someDir}/todos-edge
-    ${someDir}/todos-webui
-    ${someDir}/todos-mysql
-    ${someDir}/todos-processor
-    ${someDir}/todos-redis
-    ${someDir}/todos-shell
-    ${someDir}/todos-sink
+    cd ~/Desktop/todos-apps
+    ls
+    > ./todos-api
+    > ./todos-app
+    > ./todos-edge
+    > ./todos-webui
+    > ./todos-mysql
+    > ./todos-processor
+    > ./todos-redis
+    > ./todos-shell
+    > ./todos-sink
     ```
 1. Make sure you've installed the [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) as mentioned in [PreReqs](#prereqs)
 1. Login to Pivotal Cloud Foundry with CLI - *Note* you will need your username and password for PCF.
