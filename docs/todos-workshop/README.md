@@ -712,10 +712,9 @@ This Shop is about getting familiar with [Spring Cloud Services for PCF](https:/
 
 2. Creating a Spring Cloud Config Service Instance
 
-We want to control application configurations from a central place and Spring Cloud Config server is a great way to get up and running.  First let's create a basic Spring Cloud Config Service instance and configure with your `todos-config` repository.
+We want to control application configurations from a central place and [Spring Cloud Config server](https://docs.pivotal.io/spring-cloud-services/2-0/common/config-server/index.html) is a great way to get up and running.  First let's create a basic Spring Cloud Config Service instance and configure with your `todos-config` repository.
 
 Use `cf create-service` to provision `YOUR` Config Service instance, passing `-c` some configuration that points to the backing git-repo.
-
 
 ```bash
 cd ~/Desktop/todos-apps/pcf-config-server
@@ -730,7 +729,7 @@ cf service your-todos-config
 
 3. Creating a Spring Cloud Service Registry Instance
 
-We also want an eco-system where applications can connect with other applications and remove the burden of needing to configure URLs and client-side application access.  Spring Cloud Service Registry can help "connect" our apps in a Spring Cloud context.
+We also want an eco-system where applications can connect with other applications and remove the burden of needing to configure URLs and client-side application access.  [Spring Cloud Service Registry](https://docs.pivotal.io/spring-cloud-services/2-0/common/service-registry/index.html) can help "connect" our apps in a Spring Cloud context.
 
 Use `cf create-service` to provision `YOUR` Service Registry instance.
 
@@ -744,7 +743,17 @@ cf service your-todos-registry
 > status:    create succeeded
 ```
 
-* Switch todos-edge, todos-api, todos-webui to cloud branch
+4. Switch to cloud branch on `todos-edge`, `todos-api`, `todos-webui` samples, you may need to stash or commit local code changes to master branch before checking out cloud.
+
+```bash
+cd ~/Desktop/todos-apps/todos-api
+git checkout cloud
+cd ~/Desktop/todos-apps/todos-edge
+git checkout cloud
+cd ~/Desktop/todos-apps/todos-webui
+git checkout cloud
+```
+
 * Code and/or inspection time
     * Spring Cloud Services dependencies
     * Open Source Spring Cloud versions
