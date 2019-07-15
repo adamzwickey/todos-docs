@@ -358,15 +358,15 @@ This Shop is all about getting started with the projects and doing a CF push ice
 
 7. Compile and Push ice-breaker [App](#todos-api) - Now is a good time to talk about what PCF did to containerize and bring the app online.
 
-Edit the manifest.yml in `todos-api` to your liking.  Use a unique name for your application name (perhaps prefix with your name).
+Edit the manifest.yml in `todos-api` to `YOUR` liking.  Use a unique name for `YOUR` application name.
 
 **manifest.yml**
 
 ```yaml
 ---
 applications:
-# use something unique, for example corbs-todos-api
-- name: todos-api
+# use something unique, for example your-todos-api
+- name: your-todos-api
 memory: 1G
 path: target/todos-api-1.0.0.SNAP.jar
 buildpack: java_buildpack
@@ -377,9 +377,9 @@ env:
 **compile and push**
 
 ```bash
-cd ${someDir}/todos-api
-git checkout master # (should already be on master branch)
-mvnw clean package
+cd ~/Desktop/todos-apps/todos-api
+# git checkout master # (should already be on master branch)
+./mvnw clean package
 cf push
 ```
 
