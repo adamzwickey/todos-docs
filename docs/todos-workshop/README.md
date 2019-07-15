@@ -714,6 +714,9 @@ This Shop is about getting familiar with [Spring Cloud Services for PCF](https:/
 
 We want to control application configurations from a central place and Spring Cloud Config server is a great way to get up and running.  First let's create a basic Spring Cloud Config Service instance and configure with your `todos-config` repository.
 
+Use cf create-service to provision YOUR Config Service instance, passing `-c` some configuration that points to the backing git-repo.
+
+
 ```bash
 cd ~/Desktop/todos-apps/pcf-config-server
 cf create-service p-config-server standard your-todos-config \
