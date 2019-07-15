@@ -62,8 +62,16 @@ http foo-todos-edge.apps.retro.io/actuator/gateway/routes
 # or curl to encrypt text via spring-cloud config-server
 curl -H "Authorization: $(cf oauth-token)" https://config-721a0c02-2ec8-466b-bead-fd127b72d464.apps.retro.io/encrypt -d 'Howdy' -k
 ```
-1. An editor - All projects were created from the [Spring Initialzr](https://start.spring.io) as Maven for build and Java or Kotlin as the language.  Any editor or ide will do.
-1. Connectivity to Maven and Spring Repositories - you may need to configure a [Maven Proxy](https://CHANGEME)
+
+3. An editor or IDE - All projects were created from the [Spring Initialzr](https://start.spring.io) as Maven for build and Java or Kotlin as the language.  Any editor or IDE will do.  You can use IntelliJ or another IDE such as Eclipse and the source syntax highlighting might show red on generated POJO methods (such as `todos.getTitle()`) unless a Lombok Plugin is added.  In any case you should still be able to edit code and do IDE'less maven builds with or without an IDE plugin...that said make your IDE happy :)
+
+* [IntelliJ Lombok Plugin](https://projectlombok.org/setup/intellij)
+* [Eclipse and Spring Tools Suite Lombok Plugin](https://projectlombok.org/setup/eclipse)
+* [Visual Studio Code Lombok Plugin](https://projectlombok.org/setup/vscode)
+
+![Lombok Plugin](img/lombok-plugin.png "Lombok Plugin")
+
+4. Connectivity to Maven and Spring Repositories - you may need to configure a [Maven Proxy](https://CHANGEME)
 
 ### Pivotal Cloud Foundry
 
@@ -758,8 +766,80 @@ git checkout cloud
     * Spring Cloud Services dependencies
     * Open Source Spring Cloud versions
     * Application configuration
-* Build todos-edge, todos-api, todos-webui
-* Configure manifests to bind to Config Server and Service Registry instances
+
+5. Build Spring Cloud ready versions of `todos-edge`, `todos-api` and `todos-webui`
+
+Manual steps to build, same as before except this time we build with [spring-cloud dependencies](https://docs.pivotal.io/spring-cloud-services/2-0/common/client-dependencies.html).
+
+* [Including Spring Cloud Services Dependencies](https://docs.pivotal.io/spring-cloud-services/2-0/common/client-dependencies.html#including-dependencies)
+
+```bash
+# change into your working directory (i.e. todos-apps)
+cd ~/Desktop/todos-apps
+cd todos-api
+./mvnw clean package
+cd ../todos-edge
+./mvnw clean package
+cd ../todos-webui
+./mvnw clean package
+cd ..
+```
+
+6. Configure manifests to bind to Spring Cloud services instances created above
+
+Edit the manifest for `todos-api` and make sure `YOUR` services are configured.  Spring Cloud Services uses HTTPs for all client-to-service communication.  The `TRUST_CERTS` environment variable is applicable if your PCF environment uses Self-Signed Certificates.  Spring Cloud Services will add this Self-Signed Certificate to the JVM trust-store so Spring Cloud pushed apps can register and consume Spring Cloud Services using HTTPs.
+
+Set `TRUST_CERTS` to your PCF api endpoint (`cf target`), if you're using Self-Signed Certs.
+
+#### todos-api cloud manifest
+
+```yaml
+---
+applications:
+- name: your-todos-api
+  memory: 1G
+  path: target/todos-api-1.0.0.SNAP.jar
+  buildpack: java_buildpack
+  services:
+  - your-todos-config
+  - your-todos-registry
+  env:
+    TRUST_CERTS: api.sys.retro.io
+```
+
+#### todos-webui cloud manifest
+
+```yaml
+---
+applications:
+- name: your-todos-webui
+  memory: 1G
+  path: target/todos-webui-1.0.0.SNAP.jar
+  services:
+  - your-todos-config
+  - your-todos-registry
+  env:
+    TRUST_CERTS: api.sys.retro.io
+```
+
+#### todos-edge cloud manifest
+
+```yaml
+---
+applications:
+- name: todos-edge
+  memory: 1G
+  routes:
+  - route: todos-edge.apps.retro.io
+  - route: todos.apps.retro.io  
+  path: target/todos-edge-1.0.0.SNAP.jar
+  services:
+  - todos-config
+  - todos-registry
+  env:
+    TRUST_CERTS: api.sys.retro.io
+```
+
 * cf push todos-edge, todos-api, todos-webui
 * Make config change to todos-webui `placeholder` property to customize the UI placeholder.
 * Refresh Todos WebUI
