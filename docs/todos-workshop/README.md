@@ -155,8 +155,8 @@ cd ~/Desktop/todos-apps/todos-api
 # Skip Tests if time is a factor
 # ./mvnw clean package -DskipTests
 ./mvnw clean package
-# ls target
-target/todos-api-1.0.0.SNAP.jar
+ls target
+> target/todos-api-1.0.0.SNAP.jar
 ```
 
 ### Building all using Todo(s) Shell
