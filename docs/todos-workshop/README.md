@@ -147,7 +147,7 @@ Every sample can be built using the [Maven Wrapper](https://github.com/takari/ma
 #   todos-api,todos-app,todos-edge
 #   todos-mysql,todos-processor,todos-redis
 #   todos-shell,todos-sink,todos-webui
-cd todos-api
+cd ~/Desktop/todos-apps/todos-api
 # by default you should be on master branch
 # there are 2 branches for each project (master and cloud)
 # git checkout master|cloud
