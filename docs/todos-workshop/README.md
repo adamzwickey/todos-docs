@@ -669,6 +669,10 @@ We can restrict access to the Backend API and UI by removing public routes for t
 
 ## Shop 3
 
+This Shop is about getting familiar with [Spring Cloud Services for PCF](https://docs.pivotal.io/spring-cloud-services/common/index.html) by adding [Spring Cloud](https://spring.io/projects/spring-cloud) dependencies to the Todo(s) sample set.  Once this Shop is complete you'll have virtually the same deployment of apps with the added benefit of Spring Cloud to handle Configuration and Connectivity.
+
+![Todos Samples with SCS](img/shop-3.png "Shop 3")
+
 ### Spring Cloud for Todo sample set
 
 * Intro to Spring Cloud (setup for this sample set)
