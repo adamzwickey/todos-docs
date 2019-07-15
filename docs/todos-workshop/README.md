@@ -579,7 +579,7 @@ cf apps
 
 Pause...take a quick review and field questions
 
-**Talking Points**
+### Talking Points
 
 * Intro to Spring Boot and [Sample Set](#shop-sample-set)
 * Introduce Spring Cloud Gateway as an application edge and routing tool
@@ -656,10 +656,14 @@ We can restrict access to the Backend API and UI by removing public routes for t
 1. Open `YOUR-todos-edge` in Chrome
     * You'll have a route to your `YOUR-todos-edge` app...for example `https://your-todos-edge.apps.retro.io`
 
-* Note that only your edge application can communicate with the API and UI and now those deployments aren't over exposed on the network.  This is accomplished by [Container to Container networking](https://docs.pivotal.io/pivotalcf/devguide/deploy-apps/cf-networking.html) in PCF.
-* Extra mile - Use [Todo(s) Shell](#todos-shell) to automate pushing the apps with private networking
+### Extra mile
+
+* Use [Todo(s) Shell](#todos-shell) to automate pushing the apps with private networking
     * `shell:>push-internal --tag myinternalapp`
 
+### Talking Points
+
+* Note that only your edge application can communicate with the API and UI and now those deployments aren't over exposed on the network.  This is accomplished by [Container to Container networking](https://docs.pivotal.io/pivotalcf/devguide/deploy-apps/cf-networking.html) in PCF.
 
 ---
 
