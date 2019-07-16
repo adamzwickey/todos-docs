@@ -90,7 +90,7 @@ curl -H "Authorization: $(cf oauth-token)" https://config-721a0c02-2ec8-466b-bea
 
 ## Projects Setup
 
-Project setup is pretty straightforward as each sample is [standard spring boot](https://start.spring.io) with maven. Each is its own "project" and git repository.  So to get all the samples we need to clone multiple repositories...9 to be exact but they're small so its not too bad.
+Project setup is pretty straightforward as each sample is [standard spring boot](https://start.spring.io) with maven. Each is its own "project" and git repository.  So to get all the samples we need to clone multiple repositories...10 to be exact but they're small so its not too bad.
 
 The only **must have** is all projects should exist on the file-system as siblings...at least for general sanity.
 
@@ -103,6 +103,7 @@ corbs@corbspro:~/Desktop/todos-apps
 ls -al
 > ./todos-api
 > ./todos-app
+> ./todos-config
 > ./todos-edge
 > ./todos-mysql
 > ./todos-processor
@@ -123,6 +124,7 @@ mkdir ~/Desktop/todos-apps
 cd ~/Desktop/todos-apps
 git clone https://github.com/corbtastik/todos-api
 git clone https://github.com/corbtastik/todos-app
+git clone https://github.com/corbtastik/todos-config
 git clone https://github.com/corbtastik/todos-edge
 git clone https://github.com/corbtastik/todos-mysql
 git clone https://github.com/corbtastik/todos-processor
@@ -190,6 +192,19 @@ The build places artifacts in each project's `${project}/target` directory.  By 
 The samples listed below are used throughout the workshop, each repository goes into more depth on the app but here's a quick summary of each.  
 
 **Note** - Each project contains a master and cloud branch.  The master branch contains plain-ole Spring Boot apps while the cloud branch adds [Spring Cloud](https://spring.io/projects/spring-cloud) features to each.
+
+Sample | Repository
+------------ | -------------
+todos-api | https://github.com/corbtastik/todos-api
+todos-app | https://github.com/corbtastik/todos-app
+todos-config | https://github.com/corbtastik/todos-config
+todos-edge | https://github.com/corbtastik/todos-edge
+todos-mysql | https://github.com/corbtastik/todos-mysql
+todos-processor | https://github.com/corbtastik/todos-processor
+todos-redis | https://github.com/corbtastik/todos-redis
+todos-shell | https://github.com/corbtastik/todos-shell
+todos-sink | https://github.com/corbtastik/todos-sink
+todos-webui | https://github.com/corbtastik/todos-webui
 
 ### Domain Model
 
