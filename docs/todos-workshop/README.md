@@ -7,7 +7,7 @@ This is the [one-and-only doc](#todos-workshop) for how to use the Todo apps tog
 [Audience](#Audience)  
 [PreReqs](#prereqs)  
 [Projects Setup](#projects-setup)  
-[Projects](#projects)
+[Projects](#projects)  
 [Shop Sample Set](#shop-sample-set)  
 [Shop 0](#shop-0) - Setting up projects, PCF accounts and cf push ice-breaker  
 [Shop 1](#shop-1) - Introduce Todo sample set  
