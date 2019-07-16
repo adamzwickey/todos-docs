@@ -4,17 +4,19 @@ Howdy and welcome!
 
 This is the [one-and-only doc](#todos-workshop) for how to use the Todo apps together as a sample set.  Each project listed below has it's own README that details app specifics, this doc is an exhaustive list of information on how to use them together on PCF in a workshop format.
 
-* [Audience](#Audience)
-* [Need to know](#need-to-know)
-    * [PreReqs](#prereqs)
-    * [Domain Model](#domain-model)
-* [Shop 0](#shop-0) - Setting up projects, PCF accounts and cf push ice-breaker
-* [Shop 1](#shop-1) - Introduce Todo sample set (whiteboard or slide with picture)
-* [Shop 2](#shop-2) - Internal Routes on PCF
-* [Shop 3](#shop-3) - Spring Cloud for Todo sample set
-* [Shop 4](#shop-4) - Backing Services with MySQL and Redis for PCF
-* [Shop 5](#shop-5) - Spring Cloud Connected Lookaside Caching backend
-* [Shop 6](#shop-6) - Spring Cloud Streams integration with RabbitMQ for PCF
+[Audience](#Audience)  
+[PreReqs](#prereqs)  
+[Projects Setup](#projects-setup)  
+[Shop Sample Set](#shop-sample-set)  
+[Shop 0](#shop-0) - Setting up projects, PCF accounts and cf push ice-breaker  
+[Shop 1](#shop-1) - Introduce Todo sample set  
+[Shop 2](#shop-2) - Internal Routes on PCF  
+[Shop 3](#shop-3) - Spring Cloud for Todo sample set  
+[Shop 4](#shop-4) - Backing Services with MySQL and Redis for PCF  
+[Shop 5](#shop-5) - Spring Cloud Connected Lookaside Caching app  
+[Shop 6](#shop-6) - Spring Cloud Streams with RabbitMQ for PCF  
+
+---
 
 ## Audience
 
