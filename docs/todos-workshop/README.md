@@ -13,9 +13,6 @@ This is the [one-and-only doc](#todos-workshop) for how to use the Todo apps tog
 [Shop 1](#shop-1) - Introduce Todo sample set  
 [Shop 2](#shop-2) - Internal Routes on PCF  
 [Shop 3](#shop-3) - Spring Cloud for Todo sample set  
-[Shop 4](#shop-4) - Backing Services with MySQL and Redis for PCF  
-[Shop 5](#shop-5) - Spring Cloud Connected Lookaside Caching app  
-[Shop 6](#shop-6) - Spring Cloud Streams with RabbitMQ for PCF  
 
 ---
 
@@ -950,65 +947,3 @@ cf apps
 * Next steps - refresh bus, encrypted values
 * Extra mile - Use Todo Shell to automate pushing Spring Cloud Service ready apps
     * `shell:>push-scs --tag myscsapp`
-
----
-
-## Shop 4
-
-### Introduce backing services MySQL and Redis for PCF
-
-* Refer back to the picture we're building...it would be nice to swap out todos-api which is just keeping an internal map of the data with something more apropos.  For instance with a database like MySQL or NoSQL store like Redis.
-* Introduce
-    * Spring Data at large
-    * Spring Data Rest
-    * Spring Data JPA
-    * Spring Data Repositories, Crud and Paging
-    * Spring Data Redis non-reactive and reactive
-    * MySQL for PCF
-    * Redis for PCF
-* Inspect todos-mysql and todos-redis
-* Compile, configure and cf push both
-* Configure todos-edge with todos-mysql backend in git repo
-* Refresh todos-edge
-* Access your Todo(s) app and take note of data persistence in backing MySQL db
-* Repeat the process again, configuring your todos-edge to use todos-redis instead
-* Extra mile stuff - Using todos-shell deploy a ready made Todo(s) App with a MySQL backed API by running `shell:>push-scs-my-sql --tag myscs`
-* Discuss pros and cons of both types of stores
-* Start to introduce caching use-cases, patterns and position Pivotal Cloud Cache
-
-What have you done up to this point?  ...At this point in the shop each attendee should have coded, inspected, modified Spring Boot source code to at least 1 of 5 repositories, or perhaps just implemented some of these samples by hand as some have actually done.  At any rate attendees have seen and/or originated code for an Edge, API and/or UI app with and without Spring Cloud.  Been introduced to Java life on PCF (i.e. Java Buildpack and its features and perhaps with how to control), developers always want to know about JAVA_OPS, vm args and debugging java apps), how containers are built and the benefits of platform baked containers.  Folks should also have been introduced to backing services on PCF and how such services are consumed from Spring Boot apps.  This brings about an opportunity to discuss Spring Auto Reconfiguration in the Java Buildpack.  Developers at this point will typically ask questions around "Connection Pooling and Management", where does the DataSource come from?  
-
----
-
-## Shop 5
-
-### Spring Cloud Connected Lookaside Caching backend
-
-This Shop puts together a backend for our Todo(s) app that implements Lookaside caching at the app level and leverages previously deployed todos-mysql and todos-redis instances as the System of Record and Cache respectively.  This Shop is focused on using cloud-native connectivity baked into Spring Cloud apps, for example the Lookaside Caching app (todos-app) integrates with the Sor and Cache using DiscoveryService and hence is able to leverage internal name resolution.  IPs and URIs come and go, Spring Cloud can go a long way to insulate application code from physical network properties.
-
-*Note* that todos-app also fires events that Streams deployed in Shop 7 will use.
-
-1. Inspect code for todos-app, discuss how DiscoveryService and RestTemplate gets created and name resolution in Spring Cloud
-1. Configure VIPs for the Sor and Cache on Lookaside app
-1. Push Lookaside Caching Backend
-1. Configure Edge to use Lookaside Caching Backend
-1. Refresh Edge
-1. Access the UI
-
----
-
-## Shop 6
-
-### Spring Cloud Streams integration with RabbitMQ for PCF
-
-In this Shop we code, inspect and deploy 3 Spring Cloud Stream apps and integrate using RabbitMQ for PCF to handle messaging.  
-
-1. Code, Inspect and Build todos-sink and todos-processor
-1. Create an on-demand rabbitmq service if one has not already been created, call it `todos-messaging` or `${yourname}-todos-messaging`.
-1. Configure todos-sink and todos-processor with the rabbitmq service
-1. Configure todos-sink and todos-processor with Spring Cloud services
-1. Push the 2 apps to PCF
-1. Note two things
-    1. Now events being sent from todos-app are being written to the Sor
-    1. Any Todo entered with a "hashtag" will be indexed (i.e. "Get some peanut butter #groceries")
-1. Where to go from here?  Spring Cloud Tasks then Spring Cloud Data Flow
