@@ -66,7 +66,7 @@ cf version 6.46.0+29d6257f1.2019-07-09
     * [Eclipse and Spring Tools Suite Lombok Plugin](https://projectlombok.org/setup/eclipse)
     * [Visual Studio Code Lombok Plugin](https://projectlombok.org/setup/vscode)
 
-    <img src="img/lombok-plugin.png" width="400px">
+    <img src="img/lombok-plugin.png" width="200px">
 
 * Connectivity to Maven and Spring Repositories - you may need to configure a [Maven Proxy](https://CHANGEME)
 
