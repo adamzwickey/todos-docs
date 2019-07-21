@@ -24,10 +24,10 @@ This content is intended for anyone wanting a sound understanding of Spring Boot
 
 ### Development
 
-Each project can be cloned, built and pushed to PCF individually.  All that's required to work with projects locally are listed below.
+Each project can be cloned, built and pushed to [PCF](https://pivotal.io/platform) individually.  All that's required to work with projects locally are listed below.
 
-1. Java 8 JDK ([sdkman](https://sdkman.io/sdks#java) is a nice dev option)
-    * Be able to run `java` and `javac` from cli  
+* Java 8 JDK ([sdkman](https://sdkman.io/sdks#java) is a nice dev option)
+    * Be able to run `java` and `javac` from cli
 
 ```bash
 > java -version
@@ -39,39 +39,39 @@ OpenJDK 64-Bit Server VM (AdoptOpenJDK)(build 25.212-b03, mixed mode)
 javac 1.8.0_212
 ```
 
-1. [Git client](https://git-scm.com/downloads) to clone projects
-    * If you cannot clone from github then download zips from this [S3 bucket](https://CHANGEME).
-1. (optional) Maven 3 (again [sdkman](https://sdkman.io/sdks#maven)) - all projects use the [Maven Wrapper](https://github.com/takari/maven-wrapper) so maven installation is optional.
-1. (optional) [Make](https://www.gnu.org/software/make/) - for quick clone and other ready made commands
-1. [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) - install for your platform.  If you have access to Pivotal Apps Manager you can download the latest cf-cli from the Tools menu.  Check cf-cli version.
+* [Git client](https://git-scm.com/downloads) to clone projects
+* [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) - install for your platform.  If you have access to [Pivotal Apps Manager](https://docs.pivotal.io/pivotalcf/console/index.html) you can download the latest cf-cli from the Tools menu.  Check cf-cli version.
 
 ```bash
-> cf -v      
+> cf -v
 cf version 6.46.0+29d6257f1.2019-07-09
 ```
-1. A Browser - [Chrome Recommended](https://www.google.com/chrome/)
+* A Browser - [Chrome Recommended](https://www.google.com/chrome/)
 
-1. [Curl](https://curl.haxx.se/) or [Httpie](https://httpie.org/) - for being able to manually send various api/app requests.  [Post Man](https://www.getpostman.com/) or any http client you're comfortable with is probably fine.
+* [Curl](https://curl.haxx.se/) or [Httpie](https://httpie.org/) - for being able to manually send various api/app requests.  [Post Man](https://www.getpostman.com/) or any http client you're comfortable with is fine.
 
-```bash
-# for example use Httpie to update a todo
-http PATCH myscs-todos-app.apps.retro.io/f76bebbe \
-    title="WATCH all-star game #mlb"
-# or list application routes in spring-cloud-gateway component
-http foo-todos-edge.apps.retro.io/actuator/gateway/routes
-# or curl to encrypt text via spring-cloud config-server
-curl -H "Authorization: $(cf oauth-token)" https://config-721a0c02-2ec8-466b-bead-fd127b72d464.apps.retro.io/encrypt -d 'Howdy' -k
-```
+    ```bash
+    # for example use Httpie to update a todo
+    http PATCH myscs-todos-app.apps.retro.io/f76bebbe \
+        title="WATCH all-star game #mlb"
+    # or list application routes in spring-cloud-gateway component
+    http foo-todos-edge.apps.retro.io/actuator/gateway/routes
+    # or curl to encrypt text via spring-cloud config-server
+    curl -H "Authorization: $(cf oauth-token)" https://config-721a0c02-2ec8-466b-bead-fd127b72d464.apps.retro.io/encrypt -d 'Howdy' -k
+    ```
 
-3. An editor or IDE - All projects were created from the [Spring Initialzr](https://start.spring.io) as Maven for build and Java or Kotlin as the language.  Any editor or IDE will do.  You can use IntelliJ or another IDE such as Eclipse and the source syntax highlighting might show red on generated POJO methods (such as `todos.getTitle()`) unless a Lombok Plugin is added.  In any case you should still be able to edit code and do IDE'less maven builds with or without an IDE plugin...that said make your IDE happy :)
+* An editor or IDE - All projects were created from the [Spring Initialzr](https://start.spring.io) as Maven for build and Java or Kotlin as the language.  Any editor or IDE will do.  You can use IntelliJ or another IDE such as Eclipse and the source syntax highlighting might show red on generated POJO methods (such as `todos.getTitle()`) unless a Lombok Plugin is added.  In any case you should still be able to edit code and do IDE'less maven builds with or without an IDE plugin...that said make your IDE happy :)
 
-* [IntelliJ Lombok Plugin](https://projectlombok.org/setup/intellij)
-* [Eclipse and Spring Tools Suite Lombok Plugin](https://projectlombok.org/setup/eclipse)
-* [Visual Studio Code Lombok Plugin](https://projectlombok.org/setup/vscode)
+    * [IntelliJ Lombok Plugin](https://projectlombok.org/setup/intellij)
+    * [Eclipse and Spring Tools Suite Lombok Plugin](https://projectlombok.org/setup/eclipse)
+    * [Visual Studio Code Lombok Plugin](https://projectlombok.org/setup/vscode)
 
-![Lombok Plugin](img/lombok-plugin.png "Lombok Plugin")
+    ![Lombok Plugin](img/lombok-plugin.png "Lombok Plugin")
 
-4. Connectivity to Maven and Spring Repositories - you may need to configure a [Maven Proxy](https://CHANGEME)
+* Connectivity to Maven and Spring Repositories - you may need to configure a [Maven Proxy](https://CHANGEME)
+
+* (Optional) Maven 3 (try [sdkman](https://sdkman.io/sdks#maven)) - all projects use the [Maven Wrapper](https://github.com/takari/maven-wrapper) so maven installation is optional.
+* (Optional) [Make](https://www.gnu.org/software/make/) - for quick clone and other ready made commands
 
 ### Pivotal Cloud Foundry
 
